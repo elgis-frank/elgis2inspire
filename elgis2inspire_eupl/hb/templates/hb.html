@@ -1,0 +1,91 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+   
+    <head>
+        <!--
+           Programming by eLGIS
+                     
+           Copyright (C) by elgis ( https://elgis.de ) 2022
+       Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+       Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+       zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+           -->
+         <meta name="viewport" content="width=device-width, initial-scale=1" />
+         
+     
+         <link rel="stylesheet" type="text/css"  href="{% static "/css/styles.css" %}"  />
+         <link rel="stylesheet" type="text/css" href="{% static "/css/jquery-ui.min.css" %}"  >
+         <!-- TITLE -->
+             <title>RLP - Inspire für den Naturschutz</title>
+         <!-- TITLE END -->
+   
+<script>
+    function anzeige() {
+      window.location="edit/1";
+    }
+
+    function hbpruef(){
+        window.location="hbpruef"
+    }
+
+    function del() {
+        var r = confirm("Wollen Sie wirklich alles löschen?");
+        if (r == true) {
+            window.location="delhb";
+        } else {
+            window.location="hb";
+    } 
+      
+    }
+
+    function hbin(){
+        var r = confirm("Falls Daten vorhanden sind, werden Neue hinzugefügt");
+        if (r == true) {
+            window.location="geodat";
+        } else {
+            window.location="hb";
+    } 
+        
+    }
+
+    function load(){
+        var r = confirm("Falls eine Liste vorhanden ist, wird diese überschrieben, wollen Sie dies?");
+        if (r == true) {
+            window.location="attributdat";
+        } else {
+            window.location="hb";
+    } 
+        
+    }
+    </script>
+    </head>
+  <body>
+    <div class="gesamt"><h1 class="main">  
+        <a class="agesamt" href="/"> elgis2inspire</a><img src="{% static "/images/logo_en.png" %}" width="100px" height="100px"  alt="inspire logo"></h1>
+                                               
+        <div class="footer">
+            <table><tr>  <td width="40">             
+          <a class="symbol" href="/start" target="_self"><img src="{% static "/images/back2.png" %}" width="18px" height="20px" alt="back"> </a> </td>
+          
+          <td><a class="symbol" href="/" target="_self"><img src="{% static "/images/home.png" %}" width="18px" height="20px" alt="back"> </a> </td>
+         </tr> </table>    
+        </div>                           
+                   
+               
+                       <div class="inhalt">
+ 
+    <h4>Biotopdatenverwaltung</h4>
+    <ul class="no-bullet">
+        <li class="spez" onClick=del()>Biotopdaten löschen</li>
+        <li class="spez" onClick=hbin()>Biotopdaten laden</li>
+        <li class="spez" onClick=load()>Biotopschlüssel laden</li>
+        <li class="spez" onClick=anzeige()>Biotopschlüssel editieren</li>
+        
+
+    </ul>
+   </div>
+</div>
+<div class="footer">{% if request.user.is_authenticated %}<a class="foot" href="accounts/logout/" target="_self">Abmelden</a>{% endif %}<h3 class="footer">elgis2inspire by <a href="https:www.elgis.de"><img src="{% static "/images/RGB_Logo_eLGIS.png" %}" width="50px" alt="logo elgis"></a></h3></div>
+</body>
+</html>

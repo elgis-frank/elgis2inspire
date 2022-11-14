@@ -1,0 +1,215 @@
+/* styles für elgis2inspire */
+
+/*Universalselector box Modell */
+* {
+box-sizing: border-box;
+
+}
+h1.main {
+    font-size: 1.5em;
+    color: white;
+    display: inline-block
+}
+/*div layout gesamte Seite */
+.gesamt {
+width: 100%;
+height: 100%;
+background-color: lightgray;
+padding: 40px;
+}
+
+li.spez:hover {
+    background-color: #faa429;}
+
+.inhalt {
+padding: 20px;
+ width: 50%;
+ height: 50%;
+ background-color: #078d92;
+ border: 2px solid white;
+ color: white;
+ display: table;
+}
+
+.ainhalt {
+  color: white;
+}
+
+.intable{
+  table-layout:fixed;
+  width:100%; 
+}
+
+h3.footer {
+    font-size: 0.8em;
+    color: white;
+    text-align: right; 
+
+
+}
+
+a {
+  
+  color:white;
+}
+
+a.foot{
+text-decoration: none;
+color:#078d92;
+}
+
+div.footer {
+ padding: 10px;
+ border-top: 2px solid white;
+ background-color: lightgray;
+}
+
+a.symbol {
+  background-color: #b8b7b7;
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #696868;
+  color: black;
+}
+
+.next {
+  background-color: #f1f1f1;
+  color:black;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.drilldown option{
+  width: 400px;
+    }
+
+a.symbol2 {
+      background-color: #b8b7b7;
+      font-weight: bold;
+      font-size: 1.5em;
+      text-decoration: none;
+      color: black;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+    
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    
+    .previous {
+      background-color: #696868;
+      color: black;
+    }
+    
+    .next {
+      background-color: #f1f1f1;
+      color:black;
+    }
+    
+    .round {
+      border-radius: 50%;
+    }
+    
+    .drilldown option{
+      width: 400px;
+        }
+
+
+a.front {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: white;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  
+  a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .previous {
+    background-color: #f1f1f1;
+    color: black;
+  }
+  
+  .next {
+    background-color: #f1f1f1;
+    color:black;
+  }
+  
+  .round {
+    border-radius: 50%;
+  }
+
+  .drilldown option{
+    width: 400px;
+      }
+
+a.footer {
+        text-decoration: none;
+        font-weight: normal;
+        font-size: .9em;
+        color: white;
+        display: inline-block;
+        padding: 8px 16px;
+      }
+      
+      a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+      
+      .previous {
+        background-color: #f1f1f1;
+        color: black;
+      }
+      
+      .next {
+        background-color: #f1f1f1;
+        color:black;
+      }
+      
+      .round {
+        border-radius: 50%;
+      }
+    
+      .drilldown option{
+        width: 400px;
+          }
+  
+
+#tree {
+            display: none;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size:0.9em;
+            color: black;
+            background-color: white;
+            position: relative;
+            left: 350px;
+            top: -165px;
+            padding: 10px;
+            height: 100%;
+            border: solid;
+            border-color: lightblue;
+            border-width: 2px;
+        }
+        
+      
+
+

@@ -1,0 +1,341 @@
+#-------------------------------------------------------
+# Datei ps_wfs Version 1.01 
+#
+#  Programming by eLGIS
+#               
+#      Copyright (C) by elgis ( https://elgis.de ) 2022
+# Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+# Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+# zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# 
+#--------------------------------------------------------
+
+
+import sys
+from termios import N_MOUSE
+from wsgiref.headers import tspecials
+from xml.sax import saxutils, make_parser, parseString
+import mapscript
+import sqlite3
+from datetime import datetime
+
+
+#Vorbereitung
+
+# Read database*********************************
+# hier wird aus der Datenbank ausgelesen
+class InspireDB:
+	def __init__(self, name):
+		self.name = name
+
+	def inspireID(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select "localID", "idnamespace", "legalfoundationdate", "sitename","legalfoundationdocument"  from ps_protectedsite where featureid = ?', t):
+			l.append(row)
+		inid = l
+		return inid	
+
+	def siteDesignationType(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select "designationScheme", "designation", "percentageUnderDesignation" from "ps_sitedesignation" where fid = ?', t):
+			l.append(row)
+		sdt = l
+		return sdt
+
+	def protectionClassification(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select "fid", "siteProtectionClassification" from "ps_siteProtectionClassification" where fid = ?', t):
+			l.append(row)
+		pcl = l
+		return pcl
+
+
+	
+# class zum parsen*********************************
+# XMLGenerator Klasse*******************************
+
+class Tweak(saxutils.XMLGenerator):
+	fid = 0
+	def startElement(self, name, attrs):
+		if name == 'wfs:FeatureCollection':
+			if 'next' in attrs:
+				xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				co = attrs['next']
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3", 'xmlns:gco':"http://www.isotc211.org/2005/gco",'xmlns:gmd':"http://www.isotc211.org/2005/gmd", 
+				'xmlns:gml':gml, 'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0", 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 
+				'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:ps':"http://inspire.ec.europa.eu/schemas/ps/4.0", 
+				'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 
+				'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/ps/4.0 https://inspire.ec.europa.eu/schemas/ps/4.0/ProtectedSites.xsd " + gml1, 'timeStamp':ts,'numberMatched':nm,'numberReturned':nr,'next': co}
+			else:
+				xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3", 'xmlns:gco':"http://www.isotc211.org/2005/gco", 'xmlns:gmd':"http://www.isotc211.org/2005/gmd", 
+				'xmlns:gml':gml, 'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0", 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 
+				'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:ps':"http://inspire.ec.europa.eu/schemas/ps/4.0", 
+				'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 
+				'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/ps/4.0 https://inspire.ec.europa.eu/schemas/ps/4.0/ProtectedSites.xsd " + gml1, 'timeStamp':ts,'numberMatched':nm,'numberReturned':nr}
+		
+		
+		if name == 'ps:msGeometry':
+			name = 'ps:geometry'
+			
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+		if name == 'ps:ProtectedSite':
+			#wegen anderer gml Version vom Geoportal
+			if 'gml:id' in attrs:
+				qid = attrs['gml:id']
+			else:
+				qid = attrs['fid']
+			n = qid.split('.')
+			self.fid = int(n[1])
+		
+			
+
+	def endElement(self, name):
+		if name == 'ps:msGeometry':
+			name = 'ps:geometry'
+		saxutils.XMLGenerator.endElement(self, name)
+		if name == 'ps:geometry':
+			e = InspireDB(self.fid).inspireID()
+			el = InspireDB(self.fid).siteDesignationType()
+			ps = InspireDB(self.fid).protectionClassification()
+			# Zeit von Datum auf datetime ändern
+			# to do Zeitformat ermitteln
+			zeit = e[0][2] + ' 00:00:00'
+			date = datetime.strptime(zeit, '%d.%m.%Y %H:%M:%S')
+			dt = date.strftime("%Y-%m-%dT%H:%M:%S")
+			# Schutzgebeitesnamen von Leerzeichen befreien
+			nam = e[0][3]
+			name = nam.rstrip()
+			print("<ps:inspireID><base:Identifier><base:localId>"+ e[0][0] + "</base:localId><base:namespace>" + e[0][1] + "</base:namespace></base:Identifier></ps:inspireID>")
+			print("<ps:legalFoundationDate>" + dt + "</ps:legalFoundationDate>") 
+			print('<ps:legalFoundationDocument><gmd:CI_Citation><gmd:title><gco:CharacterString>Rechtsetzung der Unterschutzstellung</gco:CharacterString></gmd:title><gmd:date gco:nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"/><gmd:otherCitationDetails><gco:CharacterString>' + e[0][4] + '</gco:CharacterString></gmd:otherCitationDetails></gmd:CI_Citation></ps:legalFoundationDocument>')			
+			for i in el:
+				print('<ps:siteDesignation><ps:DesignationType>')
+				print('<ps:designationScheme xlink:href="'+ i[0] + '" owns="false" xlink:actuate="onLoad"  />')
+				print('<ps:designation xlink:href="'+ i[1] +'"/>')
+				if i[2] is not None:
+					print('<percentageUnderDesignation>'+  el[i][2] +'</<percentageUnderDesignation>')
+				print('</ps:DesignationType></ps:siteDesignation>')
+			print('<ps:siteName><gn:GeographicalName>')
+			print('<gn:language>ger</gn:language>')
+			print(' <gn:nativeness xlink:href="http://inspire.ec.europa.eu/codelist/NativenessValue/endonym"  xlink:type="simple"/>')
+			print('<gn:nameStatus xlink:href="http://inspire.ec.europa.eu/codelist/NameStatusValue/official"  xlink:type="simple"/>')
+			print('<gn:sourceOfName>Rechtsetzung</gn:sourceOfName>')
+			print('<gn:pronunciation nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"><gn:PronunciationOfName/></gn:pronunciation>')
+			print('<gn:spelling><gn:SpellingOfName><gn:text>'+ name + '</gn:text>')
+			print('<gn:script >Latn</gn:script>')
+			print('</gn:SpellingOfName></gn:spelling></gn:GeographicalName></ps:siteName>')
+			for i in ps:
+				print('<ps:siteProtectionClassification>'+ i[1] + '</ps:siteProtectionClassification>')
+
+# Ende XMLGeneratorklasse ****************************
+# 
+class Tweakn(saxutils.XMLGenerator):
+	
+	def startElement(self, name, attrs):
+		if name == 'ps:ProtectedSite':
+			qid = attrs['gml:id']
+			n = qid.split('.')
+			self.fid = int(n[1])
+			ps = attrs['xmlns:ps']
+			gml = attrs['xmlns:gml']
+			wfs = attrs['xmlns:wfs']
+			xsi = attrs['xmlns:xsi']
+			base = '"http://inspire.ec.europa.eu/schemas/base/3.3"'
+			#gmli = attrs['gml:id']
+			xsi = attrs['xsi:schemaLocation']
+			attrs = {'gml:id':qid, 'xmlns:gmd':"http://www.isotc211.org/2005/gmd" , 'xmlns:gco':"http://www.isotc211.org/2005/gco", 'xmlns:ps':ps, 'xmlns:gml':gml, 'xmlns:wfs':wfs, 'xmlns:base':base, 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':xsi, 
+			'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0",'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/ps/4.0 https://inspire.ec.europa.eu/schemas/ps/4.0/ProtectedSites.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" }
+		
+		if name == 'ps:msGeometry':
+			name = 'ps:geometry'
+			
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+		
+			
+	def endElement(self, name):
+		if name == 'ps:msGeometry':
+			name = 'ps:geometry'
+		saxutils.XMLGenerator.endElement(self, name)
+		if name == 'ps:geometry':
+			e = InspireDB(self.fid).inspireID()
+			el = InspireDB(self.fid).siteDesignationType()
+			ps = InspireDB(self.fid).protectionClassification()
+			# Zeit von Datum auf datetime ändern
+			# to do Zeitformat ermitteln
+			zeit = e[0][2] + ' 00:00:00'
+			date = datetime.strptime(zeit, '%d.%m.%Y %H:%M:%S')
+			dt = date.strftime("%Y-%m-%dT%H:%M:%S")
+			# Schutzgebeitesnamen von Leerzeichen befreien
+			nam = e[0][3]
+			name = nam.rstrip()
+			print("<ps:inspireID><base:Identifier><base:localId>"+ e[0][0] + "</base:localId><base:namespace>" + e[0][1] + "</base:namespace></base:Identifier></ps:inspireID>")
+			print("<ps:legalFoundationDate>" + dt + "</ps:legalFoundationDate>") 
+			print('<ps:legalFoundationDocument><gmd:CI_Citation><gmd:title><gco:CharacterString>Rechtsetzung der Unterschutzstellung</gco:CharacterString></gmd:title><gmd:date gco:nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"/><gmd:otherCitationDetails><gco:CharacterString>' + e[0][4] + '</gco:CharacterString></gmd:otherCitationDetails></gmd:CI_Citation></ps:legalFoundationDocument>')			
+			for i in el:
+				print('<ps:siteDesignation><ps:DesignationType>')
+				print('<ps:designationScheme xlink:href="'+ i[0] + '" owns="false" xlink:actuate="onLoad"  />')
+				print('<ps:designation xlink:href="'+ i[1] +'"/>')
+				if i[2] is not None:
+					print('<percentageUnderDesignation>'+  el[i][2] +'</<percentageUnderDesignation>')
+				print('</ps:DesignationType></ps:siteDesignation>')
+			print('<ps:siteName><gn:GeographicalName>')
+			print('<gn:language>ger</gn:language>')
+			print(' <gn:nativeness xlink:href="http://inspire.ec.europa.eu/codelist/NativenessValue/endonym"  xlink:type="simple"/>')
+			print('<gn:nameStatus xlink:href="http://inspire.ec.europa.eu/codelist/NameStatusValue/official"  xlink:type="simple"/>')
+			print('<gn:sourceOfName>Rechtsetzung</gn:sourceOfName>')
+			print('<gn:pronunciation nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"><gn:PronunciationOfName/></gn:pronunciation>')
+			print('<gn:spelling><gn:SpellingOfName><gn:text>'+ name + '</gn:text>')
+			print('<gn:script >Latn</gn:script>')
+			print('</gn:SpellingOfName></gn:spelling></gn:GeographicalName></ps:siteName>')
+			for i in ps:
+				print('<ps:siteProtectionClassification>'+ i[1] + '</ps:siteProtectionClassification>')
+
+# Ende XMLGeneratorklasse ****************************		
+# Ende der Vorbereitung*****************************************************************
+req = mapscript.OWSRequest()
+req.loadParams()
+if req.getValueByName('csrftoken'):
+	req.setParameter('csrftoken',None)
+if req.getValueByName('sessionid'):
+	req.setParameter('sessionid',None)
+#if req.getValueByName('count') == None:
+#	req.setParameter('count','10')
+map = mapscript.mapObj( '/var/www/inspire/dok/ps.map' )
+
+#Abfrage abfangen
+reco1 = req.getValueByName('REQUEST')
+#wenn kein request Parameter vorhanden ist
+if not reco1:
+	reco1 = 'Fault'
+reco = reco1.lower()
+#für resultType=hits
+zusatz = req.getValueByName('resultType')
+names = req.getValueByName('typenames')
+tn = 'false'
+if names == 'ProtectedSite':
+	tn = 'true'
+elif not names:
+	tn = 'true'
+
+#Abfrage nach der storedquery_id
+squery = req.getValueByName('storedquery_id')
+if squery == 'urn:ogc:def:query:OGC-WFS::GetFeatureById':
+	squery = 'OK'
+#Frage nachfehlenden Parametern
+gml = req.getValueByName('outputFormat')
+#verschiedene Versionen einspielen
+if gml == 'application/gml+xml; version=3.2' or not gml or gml == 'text/xml; subtype=gml/3.2.1':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/ProtectedSites.xsd"
+elif gml == 'text/xml; subtype=gml/3.1.1':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/ProtectedSites_3.1.xsd"
+elif gml == 'text/xml; subtype=gml/2.1.2':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/ProtectedSites_2.1.xsd"
+else:
+	df = 'false'
+#fehlender service parameter
+recop3 = req.getValueByName('SERVICE')
+if recop3:
+	recol = recop3.lower()
+
+if not recop3 or recol != 'wfs' :
+	answer = '''<?xml version="1.0" encoding="UTF-8"?>
+<ows:ExceptionReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ows="http://www.opengis.net/ows/1.1" version="2.0.0" xml:lang="en-US" xsi:schemaLocation="http://www.opengis.net/ows/1.1 http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd">
+  <ows:Exception exceptionCode="InvalidParameterValue" locator="request">
+    <ows:ExceptionText>msWFSDispatch(): WFS server error. Invalid Service request: Parameter wrong or missing</ows:ExceptionText>
+  </ows:Exception>
+</ows:ExceptionReport>
+    '''
+	print('header:text/xml')
+	print('')
+	print(answer)
+#Auswertung der requests
+elif reco == 'describefeaturetype' and df == 'true' and tn == 'true':
+	mapscript.msIO_installStdoutToBuffer()
+	map.OWSDispatch( req )
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+	f = open(dokxsd)
+	xsd = f.read()
+	#print('Content-type: ' + ct)
+	print('Content-type:text/xml' )
+	print('')
+	print(xsd)
+
+#
+# Do special processing for GetFeature
+#
+elif reco == 'getfeature' and zusatz == None and squery == None:
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweak(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+
+elif reco == 'getfeature' and zusatz == None and squery == 'OK':
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweakn(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+else:
+	map.OWSDispatch( req )

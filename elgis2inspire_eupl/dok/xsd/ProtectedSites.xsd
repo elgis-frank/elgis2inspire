@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:base="http://inspire.ec.europa.eu/schemas/base/3.3" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gn="http://inspire.ec.europa.eu/schemas/gn/4.0" xmlns:ps="http://inspire.ec.europa.eu/schemas/ps/4.0" elementFormDefault="qualified" targetNamespace="http://inspire.ec.europa.eu/schemas/ps/4.0" version="4.0">
+  <import namespace="http://inspire.ec.europa.eu/schemas/base/3.3" schemaLocation="https://inspire.ec.europa.eu/schemas/base/3.3/BaseTypes.xsd"/>
+  <import namespace="http://inspire.ec.europa.eu/schemas/gn/4.0" schemaLocation="https://inspire.ec.europa.eu/schemas/gn/4.0/GeographicalNames.xsd"/>
+  <import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"/>
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
+    <element name="DesignationType" substitutionGroup="gml:AbstractObject" type="ps:DesignationTypeType">
+      </element>
+  <complexType name="DesignationTypeType">
+    <sequence>
+      <element name="designationScheme" type="gml:ReferenceType">
+              </element>
+      <element name="designation" type="gml:ReferenceType">
+              </element>
+      <element minOccurs="0" name="percentageUnderDesignation" type="decimal">
+              </element>
+    </sequence>
+  </complexType>
+  <complexType name="DesignationTypePropertyType">
+    <sequence>
+      <element ref="ps:DesignationType"/>
+    </sequence>
+  </complexType>
+  <element name="ProtectedSite" substitutionGroup="gml:AbstractFeature" type="ps:ProtectedSiteType">
+      </element>
+  <complexType name="ProtectedSiteType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="msGeometry" type="gml:GeometryPropertyType">
+                      </element>
+          <element name="inspireID" type="base:IdentifierPropertyType">
+                      </element>
+          <element name="legalFoundationDate" nillable="true">
+                        <complexType>
+              <simpleContent>
+                <extension base="dateTime">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element name="legalFoundationDocument" nillable="true">
+                       <complexType>
+              <complexContent>
+                <extension base="gml:AbstractMetadataPropertyType">
+                  <sequence>
+                    <element ref="gmd:CI_Citation"/>
+                  </sequence>
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </complexContent>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" name="siteDesignation" nillable="true">
+                        <complexType>
+              <sequence>
+                <element ref="ps:DesignationType"/>
+              </sequence>
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" minOccurs="0" name="siteName" nillable="true">
+                        <complexType>
+              <sequence>
+                <element ref="gn:GeographicalName"/>
+              </sequence>
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" name="siteProtectionClassification" nillable="true">
+                        <complexType>
+              <simpleContent>
+                <extension base="ps:ProtectionClassificationValueType">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="ProtectedSitePropertyType">
+    <sequence minOccurs="0">
+      <element ref="ps:ProtectedSite"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <simpleType name="ProtectionClassificationValueType">
+        <restriction base="string">
+      <enumeration value="natureConservation">
+              </enumeration>
+      <enumeration value="archaeological">
+              </enumeration>
+      <enumeration value="cultural">
+             </enumeration>
+      <enumeration value="ecological">
+              </enumeration>
+      <enumeration value="landscape">
+              </enumeration>
+      <enumeration value="environment">
+              </enumeration>
+      <enumeration value="geological">
+              </enumeration>
+    </restriction>
+  </simpleType>
+</schema>

@@ -1,0 +1,100 @@
+
+  MAP
+  NAME "speciesdistribution"
+  STATUS ON
+  SIZE 400 300
+  EXTENT 4021379 2871487 4214276 3093359
+  UNITS meters
+  SHAPEPATH "../data"
+  IMAGECOLOR 255 255 255
+  CONFIG "MS_ERRORFILE" "/var/www/inspire/dok/ms_error.txt"
+  
+  #
+  # Start of web interface definition
+  #
+  WEB
+    IMAGEPATH "/ms4w/tmp/ms_tmp/"
+    IMAGEURL "/ms_tmp/"
+    METADATA
+    "ows_inspire_capabilities" "embed"
+    "ows_languages" "eng,ger"               #first default, values according ISO 639-2/B
+    "ows_inspire_temporal_reference" "2022-06-08"     #date of last revision, value according YYYY-MM-DD
+    "ows_inspire_mpoc_name" "Lanis Zentrale"                                          #point of contact
+    "ows_inspire_mpoc_email" "poststelle@sgdnord.rlp.de"           #point of contact, no personal email
+    "ows_inspire_metadatadate" "2022-06-08"
+    "ows_inspire_resourcelocator" "https://inspire.naturschutz.rlp.de/cgi-bin/wfs//sd_d2_wfs"
+    "ows_inspire_keyword" "infoFeatureAccessService"                                  #value according "classification of spatial data services"
+    "ows_inspire_dsid_code" "Point of Contact"
+    "ows_inspire_dsid_ns" "any"
+    "ows_keywordlist" "habitats and biotopes"
+    "wfs_contactperson" "Dr. Thomas Nette"
+    "wfs_contactorganization" "Lanis Zentrale bei der SGD Nord"
+    "ows_hoursofservice" "9-12 14-16"
+    "ows_contactinstructions" "via email"
+    "ows_role" "Point of Contact"
+    "wfs_contactposition" "Point of Contact"
+    "wfs_contactvoicetelephone" "+492611202112"
+    "ows_contactfacsimiletelephone" "+49261120882112"
+    "wfs_contactelectronicmailaddress" "Thomas.Nette@sgdnord.rlp.de"
+    "wfs_postcode" "D-56068"
+    "wfs_address" "Stresemannstr. 3-5"
+    "wfs_city" "Koblenz"
+    "wfs_stateorprovince" "Rhineland-Pallatine"
+    "wfs_country" "DE"
+    "wfs_addresstype" "postal"  
+    "wfs_onlineresource"  "https://inspire.naturschutz.rlp.de/cgi-bin/wfs//sd_d2_wfs"
+    "ows_service_onlineresource" "https://sgdnord.rlp.de"
+    "wfs_encoding" "utf-8"
+    "wfs_namespace_prefix" "sd"
+    "wfs_namespace_uri"  "http://inspire.ec.europa.eu/schemas/sd/4.0"
+    "wfs_title.eng"          "birds of pallatine" ## REQUIRED
+    "wfs_title.ger"     "Vögel der Pfalz"
+    "wfs_srs"            "EPSG:3035 EPSG:4326 EPSG:4269 EPSG:3978 EPSG:3857" ## Recommended
+    "wfs_abstract.eng"       "distribution of some birds in the region of pallatine" 
+    "wfs_abstract.ger"    "Verbrbeitung einiger Vogelarten der Pfalz"
+    "wfs_keywordlist"    "species distribution, natural range"
+    "wfs_fees"           "none"
+    "wfs_accessconstraints"   "license odbl Version 3.0" 
+    "wfs_enable_request" "*"  # necessary
+    "wfs_maxfeatures"   "1000"
+    "wfs_maxfeatures_ignore_for_resulttype_hits" "true"
+          END
+    END
+  
+
+  PROJECTION
+    "init=epsg:3035"
+  END
+
+  #
+  # Start of layer definitions
+  #
+
+  ##################
+  # species distribution
+  ##################
+  LAYER
+    NAME "SpeciesDistributionUnit"
+    METADATA
+    "wfs_title"         "SpeciesDistributionUnit" ##REQUIRED
+    "wfs_srs"           "EPSG:3035" ## REQUIRED
+    #"gml_include_items" "all" ## Optional (serves all attributes for layer)
+    "gml_featureid"       "localID" ## REQUIRED
+    "wfs_enable_request" "*"
+    "wfs_metadataurl_href" "any"
+     END
+    TYPE POLYGON
+    STATUS ON
+    CONNECTIONTYPE OGR
+    CONNECTION "/var/www/inspire/db.sqlite3"
+    DATA "select localID, the_geom from sd_speciesdistributionunit where sddi = 2"
+     CLASS
+      NAME "sd2"
+      STYLE
+        COLOR 255 128 128
+        OUTLINECOLOR 96 96 96
+      END
+    END
+  END #layer
+
+END #mapfile

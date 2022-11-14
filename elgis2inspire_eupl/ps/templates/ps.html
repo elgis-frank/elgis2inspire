@@ -1,0 +1,149 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+   
+    <!-- 
+        Design and Programming by dkd Internet Service GmbH
+        www.dkd.de
+    
+        Programming by eLGIS
+        eLGIS.de
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+
+    <link rel="stylesheet" type="text/css"  href="{% static "css/mulewf.css" %}"  />
+    <link rel="stylesheet" type="text/css"  href="{% static "css/messages.css" %}"  />
+    <link rel="stylesheet" type="text/css"  href="{% static "css/processware.css" %}"  />
+    <link rel="stylesheet" type="text/css"  href="{% static "css/okey.css" %}"  />
+    <link rel="stylesheet" type="text/css"  href="{% static "css/styles.css" %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.min.css" %}"  >
+    <!-- TITLE -->
+        <title>RLP - Inspire für den Naturschutz</title>
+    <!-- TITLE END --></head><body>
+    <!-- HEADER -->
+
+    <header class="header"> 
+        <meta charset="utf-8" />
+        <div class="background-wrap gray-600">
+            <div class="row logo-search-area">
+                <div class="small-6 medium-4 columns">
+                    
+                </div>
+                <div class="medium-4 columns hide-for-small-only">
+                    <ul class="skipto inline-list">
+                        <li><a class="show-on-focus" tabindex="1" href="de/themen/ernaehrung/#main-navigation >">ZUR HAUPTNAVIGATION <span class="nav-arrow"></span></a></li>
+                        
+                            <li><a class="show-on-focus" tabindex="1" href="de/themen/ernaehrung/#search ">ZUR SUCHE<span class="nav-arrow"></span></a></li>
+                        
+                        <li><a class="show-on-focus" tabindex="1" href="de/themen/ernaehrung/#content ">ZUM INHALT <span class="nav-arrow"></span></a></li>
+                    </ul>
+                </div>
+                <div class="small-6 medium-4 columns last">
+                    <a href="index.html">
+                                                   <img title="rlp" alt="rlp-logo" src="{% static "images/rlp-logos-MUEEF.png"  %}" width="192" height="84" />
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+<script>
+    function del() {
+        var r = confirm("Wollen Sie wirklich alles löschen?");
+        if (r == true) {
+            window.location="delps";
+        } else {
+            window.location="ps";
+    } 
+      
+    }
+
+    function psin(){
+        var r = confirm("Falls Daten vorhanden sind, werden Neue hinzugefügt");
+        if (r == true) {
+            window.location="psgeo";
+        } else {
+            window.location="ps";
+    } 
+        
+    }
+
+
+    
+    </script>
+</header>
+<!-- HEADER END -->
+
+<body>
+<nav class="main-menu static" role="navigation" id="main-navigation">
+    <div class="row">
+        <div class="small-12 columns menu-container">
+            <div class="mobile-menu">
+                <ul>
+                    <li class="menu-trigger">
+                        <button>Menü</button>
+                    </li>
+                    
+                </ul>
+            </div>
+            <ul class="dkd_mm_section_list" data-level="1">
+                <li class="dkd_mm_entry">
+                    
+                      <span class="dkd_mm_link" role=button><a href="/" target="_self">Startseite</a></span> 
+                      
+                    
+                </li>
+                <li class="dkd_mm_entry dkd_mm_sub_link">
+                   <span class="dkd_mm_link" role=button><a href="/start" target="_self"><img src="{% static "images/back_w.png" %}" width="20px"  alt="back"> </a></span>               
+                   
+               </li>
+               <li class="dkd_mm_entry dkd_mm_sub_link">
+                   <span class="dkd_mm_link" role=button><a href="accounts/logout/" target="_self">Abmelden </a></span>               
+                 
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- NAV END -->
+ <!-- CONTENT -->
+ <div class="row uebersichtsseite" id="content">
+    <!-- breadcrumb -->
+    
+    <!-- breadcrumb END-->
+    <div class="small-12 columns">
+        <div class="row" style="margin-top: 70px;">
+            <div class="small-12 medium-3 columns"> </div>
+            <div class="small-12 medium-6 columns">
+                    <h4>Geodaten für protected sites</h4>
+                    <ul class="no-bullet">
+        <li class="spez" onClick=del()>Löschen der Altdaten</li>
+        <li class="spez" onClick=psin()>Laden neuer Daten</li>
+     </ul>
+    </div>
+    <div class="small-12 medium-3 columns"> </div>
+</div>
+</div>
+
+</div>
+<!-- CONTENT END -->
+<!-- FOOTER --><footer class="footer" xmlns:f="http://www.w3.org/1999/html">
+<div class="background-wrap gray-500 line"></div>
+<div class="row">
+<div class="large-6 medium-6 columns">
+   <h2 class="h6">Über die Anwendung</h2>
+   <ul class="no-bullet">
+       <li><a href="/impressum" target="_self">Impressum</a></li>
+   </ul>
+</div>
+</div>
+</footer>
+<!-- FOOTER END -->
+<script src="{% static "js/mulewf.min.js"  %}" type="text/javascript"></script>
+<script src="{% static "js/utils.js"  %}" type="text/javascript"></script>
+<script src="{% static "js/jquery-ui.min.js"  %}" type="text/javascript"></script>
+<script src="{% static "js/selectize.min.js"  %}" type="text/javascript"></script>
+
+</body>
+
+
+</html>

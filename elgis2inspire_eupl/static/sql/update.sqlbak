@@ -1,0 +1,10 @@
+delete from elgis2inspire_habitattypecovertype;
+insert into elgis2inspire_habitattypecovertype (fid , referenceHabitatTypeId, referenceHabitatTypeScheme, bl) select featureId,  n2000, 'http://inspire.ec.europa.eu/codelist/ReferenceHabitatTypeSchemeValue/habitatsDirective', bl from elgis2inspire_habitat  where lcode is null;
+create temp table update_habitattype (featureid integer primary key, lcode text , lname text, icode text, iname text, qualifierLocalName text, bl integer);
+insert into  update_habitattype (featureid , lcode , bl    ) select featureid, lcode, bl from elgis2inspire_habitat where lcode is not null;
+update update_habitattype  set lcode = trim(lcode);
+update update_habitattype set lname  = (select lname from elgis2inspire_habitatlist where elgis2inspire_habitatlist.lcode = update_habitattype.lcode);
+update update_habitattype set icode  = (select icode from elgis2inspire_habitatlist where elgis2inspire_habitatlist.lcode = update_habitattype.lcode);
+update update_habitattype set iname  = (select iname from elgis2inspire_habitatlist where elgis2inspire_habitatlist.lcode = update_habitattype.lcode);
+insert into elgis2inspire_habitattypecovertype (fid , referenceHabitatTypeId, referenceHabitatTypeName, referenceHabitatTypeScheme, bl) select featureId,  icode, iname, 'http://inspire.ec.europa.eu/codelist/ReferenceHabitatTypeSchemeValue/eunis', bl from update_habitattype ;
+insert into elgis2inspire_localnametype (fid, localname, localnamecode, qualifierLocalName, bl) select featureid, lcode, lname, qualifierLocalName, bl from update_habitattype;

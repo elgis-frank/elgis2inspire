@@ -1,0 +1,24 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+<head>
+<title>eLGIS2inspire Attributliste laden </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static "/css/styles.css" %}" />
+
+</head>
+<body>
+        <div class="gesamt"><a class="front" href="/hb"><img src="{% static "/images/back.png" %}" width="20px"  alt="back"></a><a class="front" href="/">elgis2inspire</a><img src="{% static "/images/logo_en.png" %}" width="100px" height="100px"  alt="inspire logo">   
+                <div class="inhalt">  
+    <form method="POST" class="post-form" enctype="multipart/form-data">  
+            {% csrf_token %}  
+            {{ form.as_p }}  
+            <button type="submit" class="save btn btn-default">Speichern</button>  
+    </form>  
+</div></div>
+<div class="footer"><a class="footer" href="accounts/logout/">Abmelden</a> <h3 class="footer">elgis2inspire by <a href="https:www.elgis.de"><img src="{% static "/images/RGB_Logo_eLGIS.png" %}" width="50px" alt="logo elgis"></a></h3></div>
+
+
+    </body> 
+    </html> 

@@ -1,0 +1,121 @@
+[Sun Sep 11 19:03:58 2022].561443 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 19:05:16 2022].807500 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 19:05:40 2022].85669 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 19:08:33 2022].995170 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 19:11:12 2022].623873 msFreeMap(): freeing map at 0x1476ec0.
+[Sun Sep 11 19:13:14 2022].556916 msFreeMap(): freeing map at 0x18f7ec0.
+[Sun Sep 11 19:13:21 2022].147206 msFreeMap(): freeing map at 0x2741a30.
+[Sun Sep 11 19:29:07 2022].503871 msFreeMap(): freeing map at 0xf52880.
+[Sun Sep 11 19:29:17 2022].657445 msFreeMap(): freeing map at 0x21e4880.
+[Sun Sep 11 19:32:23 2022].662345 msFreeMap(): freeing map at 0x1ef0a30.
+[Sun Sep 11 19:32:27 2022].28493 msFreeMap(): freeing map at 0x1af5880.
+[Sun Sep 11 19:33:26 2022].384553 msFreeMap(): freeing map at 0x28dc940.
+[Sun Sep 11 19:35:47 2022].327165 msFreeMap(): freeing map at 0x22eea30.
+[Sun Sep 11 19:36:02 2022].320122 msWFSDescribeFeatureType(): WFS server error. Unsupported DescribeFeatureType outputFormat (schrott).
+[Sun Sep 11 19:36:02 2022].327725 msFreeMap(): freeing map at 0x1202100.
+[Sun Sep 11 19:36:31 2022].536678 msFreeMap(): freeing map at 0x132c100.
+[Sun Sep 11 21:43:07 2022].561186 msFreeMap(): freeing map at 0x22dd9a0.
+[Sun Sep 11 21:46:55 2022].946418 msFreeMap(): freeing map at 0x104fd20.
+[Sun Sep 11 21:48:26 2022].876419 msFreeMap(): freeing map at 0x28f2d20.
+[Sun Sep 11 21:49:05 2022].442441 msFreeMap(): freeing map at 0x1b0cd20.
+[Sun Sep 11 19:49:41 2022].426112 msFreeMap(): freeing map at 0x14a7f70.
+[Sun Sep 11 21:51:01 2022].616328 msFreeMap(): freeing map at 0x1ae3d20.
+[Sun Sep 11 19:51:16 2022].166853 msFreeMap(): freeing map at 0x1364a30.
+[Sun Sep 11 21:51:37 2022].366696 msFreeMap(): freeing map at 0x2ab03f0.
+[Sun Sep 11 21:53:21 2022].299532 msFreeMap(): freeing map at 0x15e4d20.
+[Sun Sep 11 19:53:55 2022].643882 msWFSGetFeature(): WFS server error. 'application/gml+xml' is not a permitted output format for layer 'Habitat', review wfs_getfeature_formatlist setting.
+[Sun Sep 11 19:53:55 2022].654676 msFreeMap(): freeing map at 0xfb3f70.
+[Sun Sep 11 21:54:13 2022].647045 msFreeMap(): freeing map at 0xd5ed20.
+[Sun Sep 11 19:54:47 2022].370531 msFreeMap(): freeing map at 0x1bf1f70.
+[Sun Sep 11 21:55:01 2022].793769 msFreeMap(): freeing map at 0x24c3d20.
+[Sun Sep 11 21:57:56 2022].531284 msFreeMap(): freeing map at 0x24c5d20.
+[Sun Sep 11 21:58:42 2022].764061 msFreeMap(): freeing map at 0x2a97d20.
+[Sun Sep 11 19:58:59 2022].463478 msFreeMap(): freeing map at 0x2224f70.
+[Sun Sep 11 21:59:28 2022].721249 msFreeMap(): freeing map at 0x1c1f9a0.
+[Sun Sep 11 19:59:51 2022].718164 msFreeMap(): freeing map at 0x1f38100.
+[Sun Sep 11 22:00:09 2022].993857 msFreeMap(): freeing map at 0x21c73f0.
+[Sun Sep 11 20:00:31 2022].596834 msFreeMap(): freeing map at 0x2150100.
+[Sun Sep 11 22:01:04 2022].814312 msFreeMap(): freeing map at 0x253c3f0.
+[Sun Sep 11 22:04:11 2022].185227 msFreeMap(): freeing map at 0x2083d20.
+[Sun Sep 11 22:04:16 2022].257114 msFreeMap(): freeing map at 0x2b9cd20.
+[Sun Sep 11 22:04:20 2022].957018 msFreeMap(): freeing map at 0x1f549a0.
+[Sun Sep 11 20:04:26 2022].287040 msFreeMap(): freeing map at 0x2768100.
+[Sun Sep 11 22:05:18 2022].37907 msFreeMap(): freeing map at 0x1b23d20.
+[Sun Sep 11 20:05:23 2022].486729 msWFSDescribeFeatureType(): WFS server error. Invalid typename (paul). A layer might be disabled for this request. Check wfs/ows_enable_request settings.
+[Sun Sep 11 20:05:23 2022].493842 msFreeMap(): freeing map at 0x22a8f70.
+[Sun Sep 11 22:05:30 2022].460587 msFreeMap(): freeing map at 0xd9c9a0.
+[Sun Sep 11 20:05:37 2022].397242 msWFSDescribeFeatureType(): WFS server error. Invalid typename (paul). A layer might be disabled for this request. Check wfs/ows_enable_request settings.
+[Sun Sep 11 20:05:37 2022].403616 msFreeMap(): freeing map at 0x15c6100.
+[Sun Sep 11 20:05:49 2022].704837 msWFSDescribeFeatureType(): WFS server error. Invalid typename (paul). A layer might be disabled for this request. Check wfs/ows_enable_request settings.
+[Sun Sep 11 22:08:49 2022].602718 msFreeMap(): freeing map at 0x26f9d20.
+[Sun Sep 11 20:08:55 2022].351894 msWFSGetFeature(): WFS server error. Incomplete WFS request: TYPENAMES parameter missing
+[Sun Sep 11 20:08:55 2022].363564 msFreeMap(): freeing map at 0x1db8f70.
+[Sun Sep 11 22:09:03 2022].704034 msFreeMap(): freeing map at 0x14e99a0.
+[Sun Sep 11 20:09:10 2022].509301 msWFSGetFeature(): WFS server error. Incomplete WFS request: TYPENAMES parameter missing
+[Sun Sep 11 20:09:10 2022].520807 msFreeMap(): freeing map at 0x1706100.
+[Sun Sep 11 20:09:30 2022].155460 msWFSGetFeature(): WFS server error. Incomplete WFS request: TYPENAMES parameter missing
+[Sun Sep 11 22:09:42 2022].251056 msFreeMap(): freeing map at 0x2309d20.
+[Sun Sep 11 20:09:50 2022].32464 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 20:09:50 2022].43219 msFreeMap(): freeing map at 0x2270f70.
+[Sun Sep 11 22:09:56 2022].831166 msFreeMap(): freeing map at 0x1c4a9a0.
+[Sun Sep 11 20:10:05 2022].32865 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 20:10:05 2022].43043 msFreeMap(): freeing map at 0x2b8f100.
+[Sun Sep 11 20:10:19 2022].736366 msWFSGetFeature(): WFS server error. TYPENAME 'paul' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 22:13:21 2022].46355 msFreeMap(): freeing map at 0x10bfd20.
+[Sun Sep 11 22:14:56 2022].658727 msFreeMap(): freeing map at 0x1de19a0.
+[Sun Sep 11 22:16:21 2022].156118 msWFSGetFeature(): WFS server error. TYPENAME 'Habitat' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 22:16:36 2022].966541 msWFSGetFeature(): WFS server error. TYPENAME 'Habitat' doesn't exist in this server.  Please check the capabilities and reformulate your request.
+[Sun Sep 11 22:17:01 2022].948705 FLTLayerApplyPlainFilterToLayer(): (([featureid] == 1556334)), rect=4021379,2871487,4214276,3093359
+[Sun Sep 11 22:17:05 2022].612878 msFreeMap(): freeing map at 0x2593d20.
+[Sun Sep 11 20:17:15 2022].958342 msFreeMap(): freeing map at 0x1de3a30.
+[Sun Sep 11 22:17:42 2022].152844 msFreeMap(): freeing map at 0x21459a0.
+[Sun Sep 11 20:17:57 2022].63266 FLTLayerApplyPlainFilterToLayer(): (([featureid] == 1)), rect=4021379,2871487,4214276,3093359
+[Sun Sep 11 20:17:57 2022].324525 msFreeMap(): freeing map at 0x1212100.
+[Sun Sep 11 22:20:30 2022].619292 msFreeMap(): freeing map at 0x19d8d20.
+[Sun Sep 11 22:22:24 2022].136420 msFreeMap(): freeing map at 0x1c9d9a0.
+[Sun Sep 11 22:22:53 2022].902690 msFreeMap(): freeing map at 0x1c4cd20.
+[Sun Sep 11 22:23:09 2022].809423 msFreeMap(): freeing map at 0x1a3bd20.
+[Mon Sep 12 10:34:59 2022].239939 msWFSDescribeFeatureType(): WFS server error. Invalid typename (paul). A layer might be disabled for this request. Check wfs/ows_enable_request settings.
+[Mon Sep 12 10:48:51 2022].369555 msWFSDescribeFeatureType(): WFS server error. Invalid typename (paul). A layer might be disabled for this request. Check wfs/ows_enable_request settings.
+[Mon Sep 12 10:50:24 2022].914973 msWFSGetFeature(): WFS server error. '' is not a permitted output format for layer 'SpeciesDistributionUnit', review wfs_getfeature_formatlist setting.
+[Mon Sep 12 10:57:26 2022].574772 msWFSGetFeature(): WFS server error. '' is not a permitted output format for layer 'SpeciesDistributionUnit', review wfs_getfeature_formatlist setting.
+[Thu Nov  3 14:55:38 2022].944924 msFreeMap(): freeing map at 0xd3bf90.
+[Thu Nov  3 14:57:34 2022].486469 msFreeMap(): freeing map at 0x12f63a0.
+[Thu Nov  3 14:58:34 2022].616165 msFreeMap(): freeing map at 0x232e850.
+[Thu Nov  3 16:58:47 2022].824306 msFreeMap(): freeing map at 0x157e3a0.
+[Thu Nov  3 16:58:51 2022].345313 msWMSLoadGetMapParams(): enabling non-square pixels.
+[Thu Nov  3 16:58:51 2022].346580 msDrawMap(): kicking into non-square pixel preserving mode.
+[Thu Nov  3 16:58:51 2022].346597 msDrawMap(): rendering using outputformat named png (AGG/PNG).
+[Thu Nov  3 16:58:51 2022].346601 msDrawMap(): WMS/WFS set-up and query, 0.000s
+[Thu Nov  3 16:58:51 2022].459549 msDrawMap(): Layer 0 (HB.Habitat), 0.113s
+[Thu Nov  3 16:58:51 2022].459621 msDrawMap(): Drawing Label Cache, 0.000s
+[Thu Nov  3 16:58:51 2022].459645 msDrawMap() total time: 0.113s
+[Thu Nov  3 16:58:51 2022].464511 msSaveImage(stdout) total time: 0.002s
+[Thu Nov  3 16:58:51 2022].472314 msFreeMap(): freeing map at 0x2386850.
+[Thu Nov  3 17:10:03 2022].294839 msWMSLoadGetMapParams(): enabling non-square pixels.
+[Thu Nov  3 17:10:03 2022].312971 msDrawMap(): kicking into non-square pixel preserving mode.
+[Thu Nov  3 17:10:03 2022].313010 msDrawMap(): rendering using outputformat named png (AGG/PNG).
+[Thu Nov  3 17:10:03 2022].313024 msDrawMap(): WMS/WFS set-up and query, 0.000s
+[Thu Nov  3 17:10:08 2022].394422 msDrawMap(): Layer 0 (HB.Habitat), 5.081s
+[Thu Nov  3 17:10:08 2022].394436 msDrawMap(): Drawing Label Cache, 0.000s
+[Thu Nov  3 17:10:08 2022].394440 msDrawMap() total time: 5.085s
+[Thu Nov  3 17:10:08 2022].420422 msSaveImage(stdout) total time: 0.026s
+[Thu Nov  3 17:10:08 2022].422194 msFreeMap(): freeing map at 0xbe7850.
+[Thu Nov  3 17:10:21 2022].929212 msFreeMap(): freeing map at 0x11e73a0.
+[Thu Nov  3 17:10:25 2022].723404 msFreeMap(): freeing map at 0x15573a0.
+[Thu Nov  3 17:10:29 2022].462969 msFreeMap(): freeing map at 0x1cd83a0.
+[Thu Nov  3 17:10:33 2022].482144 msWMSLoadGetMapParams(): enabling non-square pixels.
+[Thu Nov  3 17:10:33 2022].483074 msDrawMap(): kicking into non-square pixel preserving mode.
+[Thu Nov  3 17:10:33 2022].483082 msDrawMap(): rendering using outputformat named png (AGG/PNG).
+[Thu Nov  3 17:10:33 2022].483085 msDrawMap(): WMS/WFS set-up and query, 0.000s
+[Thu Nov  3 17:10:38 2022].190298 msDrawMap(): Layer 0 (HB.Habitat), 4.707s
+[Thu Nov  3 17:10:38 2022].190312 msDrawMap(): Drawing Label Cache, 0.000s
+[Thu Nov  3 17:10:38 2022].190316 msDrawMap() total time: 4.707s
+[Thu Nov  3 17:10:38 2022].193051 msSaveImage(stdout) total time: 0.002s
+[Thu Nov  3 17:10:38 2022].195823 msFreeMap(): freeing map at 0x223e850.
+[Wed Nov  9 08:41:48 2022].293637 msFreeMap(): freeing map at 0x1a483a0.
+[Wed Nov  9 08:49:10 2022].109853 msFreeMap(): freeing map at 0x12b9100.
+[Wed Nov  9 10:53:24 2022].770639 msFreeMap(): freeing map at 0x28c9100.
+[Wed Nov  9 10:53:50 2022].901638 msFreeMap(): freeing map at 0x294f100.
+[Wed Nov  9 13:02:42 2022].854906 msFreeMap(): freeing map at 0x13313a0.
+[Wed Nov  9 14:05:45 2022].162622 msFreeMap(): freeing map at 0xe34a20.

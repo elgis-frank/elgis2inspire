@@ -1,0 +1,53 @@
+#-------------------------------------------------------
+# Datei sd_d1_wms Version 1.01 
+#
+#  Programming by eLGIS
+#               
+#      Copyright (C) by elgis ( https://elgis.de ) 2022
+# Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+# Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+# zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# 
+#--------------------------------------------------------
+
+import mapscript
+
+
+
+req = mapscript.OWSRequest()
+req.loadParams()
+map = mapscript.mapObj( '/var/www/inspire/dok/sd_d1_wms.map' )
+#Frage nachfehlenden Parametern
+serv = req.getValueByName('service')
+rq = req.getValueByName('request')
+if serv == 'wms' or serv == 'WMS' :
+    s = 'true'
+else:
+    s = 'false'
+if rq == 'GetMap' or rq == 'getmap' or rq == 'Getmap' and s == 'true':
+    styl = req.getValueByName('styles')
+    if not styl:
+        answer = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ServiceExceptionReport version="1.3.0" xmlns="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ogc http://schemas.opengis.net/wms/1.3.0/exceptions_1_3_0.xsd">
+<ServiceException>
+msWMSDispatch(): WMS server error. Styles parameter missing
+</ServiceException>
+</ServiceExceptionReport>'''
+        print('Content-type:text/xml' )
+        print('')
+        print(answer)
+    else:
+        map.OWSDispatch( req )
+elif s == 'true':
+    map.OWSDispatch( req )
+else:
+    answer = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ServiceExceptionReport version="1.3.0" xmlns="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/ogc http://schemas.opengis.net/wms/1.3.0/exceptions_1_3_0.xsd">
+<ServiceException>
+msWMSDispatch(): WMS server error. Styles parameter missing
+</ServiceException>
+</ServiceExceptionReport>'''
+    print('Content-type:text/xml' )
+    print('')
+    print(answer)
+

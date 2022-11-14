@@ -1,0 +1,160 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+   
+  
+  <head>
+    <!--
+       Programming by eLGIS
+                 
+       Copyright (C) by elgis ( https://elgis.de ) 2022
+   Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+   Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+   zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+       -->
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     
+ 
+     <link rel="stylesheet" type="text/css"  href="{% static "/css/styles.css" %}"  />
+     <link rel="stylesheet" type="text/css" href="{% static "/css/jquery-ui.min.css" %}"  >
+     <!-- TITLE -->
+         <title>RLP - Inspire für den Naturschutz</title>
+     <!-- TITLE END -->
+    </head>
+<body>
+  <div class="gesamt"><h1 class="main">  
+    <a class="agesamt" href="/"> elgis2inspire</a><img src="{% static "/images/logo_en.png" %}" width="100px" height="100px"  alt="inspire logo"></h1>  <div class="inhalt">
+            <h4>Inspire Netzdienste für den Naturschutz in Rheinland-Pfalz</h4>
+            
+                <table border="1">        
+             <tr >
+                {% if d.gb  %}
+                <td><a  href="{{ d.gb }}">GML Biotope</a></td>
+                <td><a   href="{{ d.cb }}">Capabilities Biotope  </a><a   href="linkurl/biowfs"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a>
+                 </td>
+                <td><a    href="{{ d.sb }}">Schema Biotope</a></td>
+                <td><a    href="{{ d.wmshg }}" onclick="window.open(this.href,'wms Karte',
+                  `toolbar=no,
+                   location=no,
+                   status=no,
+                   menubar=no,
+                   scrollbars=yes,
+                   resizable=yes,
+                   width=200,
+                   height=100`);
+return false;">WMS GetMap Biotope</td>
+                <td><a    href="{{ d.wmshc }}">WMS GetCapabilities Biotope</a><a    href="linkurl/biowms"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a></td>
+                {%  endif %}
+             </tr>
+             <tr >
+                {% if d.gs  %}
+                <td><a    href="{{ d.gs }}">GML Schutzgebiete  </a></td>
+                <td><a href="{{ d.cs }}">Capabilities Schutzgebiete</a><a href="linkurl/pswfs"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a></td>
+                <td><a href="{{ d.ss }}">Schema Schutzgebiete</a></td>
+                <td><a href="{{ d.wmspg }}" onclick="window.open(this.href,'wms Karte',
+                  `toolbar=no,
+                   location=no,
+                   status=no,
+                   menubar=no,
+                   scrollbars=yes,
+                   resizable=yes,
+                   width=200,
+                   height=100`);
+return false;">WMS GetMap Schutzgebiete</a></td>
+                <td><a href="{{ d.wmspc }}">WMS GetCapabilities Schutzgebiete</a><a href="linkurl/pswms"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a></td>
+                {%  endif %}                
+             </tr>
+             <tr>{% for k, v in surlex.items %}<tr>
+                  <td><a href="{{ v }}request=GetFeature&typenames=SpeciesDistributionUnit&count=10">GML von {{ snamex|get_value:k}}</a></td>
+                  <td><a href="{{ v }}&request=GetCapabilities">Capabilities von {{ snamex|get_value:k}}</a><a href="linkurl/sdwfs"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a></td>
+                  <td><a href="{{ v }}request=DescribeFeatureType&typenames=speciesdistributionunit">Schema von {{ snamex|get_value:k}}</a></td>
+
+                  
+                  <td><a href="{{ urlthomas|get_value:k  }}" onclick="window.open(this.href,'wms Karte',
+                    `toolbar=no,
+                     location=no,
+                     status=no,
+                     menubar=no,
+                     scrollbars=yes,
+                     resizable=yes,
+                     width=200,
+                     height=100`);
+  return false;">WMS GetMap Artenverbreitung in Rheinland-Pfalz</a></td>
+                 
+
+                  <td><a href="/cgi-bin/wfs/sd_d{{ k }}_wms?service=wms&version=1.3.0&request=getCapabilities&">WMS GetCapabilities von {{ snamex|get_value:k}}</a><a href="linkurl/sdwms"
+                    onclick="window.open(this.href,'targetWindow',
+                                                    `toolbar=no,
+                                                     location=no,
+                                                     status=no,
+                                                     menubar=no,
+                                                     scrollbars=yes,
+                                                     resizable=yes,
+                                                     width=500,
+                                                     height=100`);
+                  return false;"> =>URL</a></td>
+               </tr>
+                             {% endfor %} </tr>
+                  </table>
+                  <h3 class="footer">Datenquelle: Land Rheinland-Pfalz https://geodaten.naturschutz.rlp.de und eigene Daten</h3>
+               </div>
+               </div>
+               <div class="footer"><h3 class="footer">elgis2inspire by <a href="https:www.elgis.de"><img src="{% static "/images/RGB_Logo_eLGIS.png" %}" width="50px" alt="logo elgis"></a></h3></div>
+
+
+       
+       </body>
+       
+       
+       </html>
+       

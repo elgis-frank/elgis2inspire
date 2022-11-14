@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+<head>
+<title>eLGIS2inspire Geodaten laden </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static "sd/css/styles.css" %}" />
+<script>
+    function back() {
+      window.location="/";
+    }
+</script>
+</head>
+<body>
+        <div class="gesamt"><h1 class="main">elgis2inspire<img src="{% static "sd/images/logo_en.png" %}" width="100px" height="100px"  alt="inspire logo"></h1>
+            <div class="inhalt">  
+                {% if messages %}
+                <ul>
+                        {% for message in messages %}
+                           <li>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+                {% endif %} 
+                <button type="submit" onClick=back() class="save btn btn-default">zurück</button> 
+</div></div>
+<div class="footer"><h3 class="footer">elgis2inspire by <a href="https://www.elgis.de"><img src="{% static "sd/images/RGB_Logo_eLGIS.png" %}" width="50px" alt="logo elgis"></a></h3></div>
+
+
+    </body> 
+    </html> 

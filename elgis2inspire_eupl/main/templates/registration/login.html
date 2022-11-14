@@ -1,0 +1,74 @@
+{% load static %}
+<!doctype html>
+<html lang="de">
+   
+    <head>
+        <!--
+           Programming by eLGIS
+                     
+           Copyright (C) by elgis ( https://elgis.de ) 2022
+       Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+       Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+       zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+           -->
+         <meta name="viewport" content="width=device-width, initial-scale=1" />
+         
+     
+         <link rel="stylesheet" type="text/css"  href="{% static "/css/styles.css" %}"  />
+         <link rel="stylesheet" type="text/css" href="{% static "/css/jquery-ui.min.css" %}"  >
+         <!-- TITLE -->
+             <title>RLP - Inspire für den Naturschutz</title>
+         <!-- TITLE END -->
+     
+    
+</head>
+<body>
+  <div class="gesamt"><h1 class="main">  
+      <a class="agesamt" href="/"> elgis2inspire</a><img src="{% static "/images/logo_en.png" %}" width="100px" height="100px"  alt="inspire logo"></h1>
+   
+          
+           <div class="inhalt"> 
+  
+      {% block content %}
+
+      {% if form.errors %}
+        <p>Der Name oder das Passwort sind nicht korrekt. Bitte noch einmal versuchen.</p>
+      {% endif %}
+    
+      {% if next %}
+        {% if user.is_authenticated %}
+          <p>Der Nutzer account darf diesen Teil nicht ausführen. Bitte wählen Sie einen geeigneten Nutzer</p>
+        {% else %}
+          <p>Sie müssen sich bitte einloggen</p>
+        {% endif %}
+      {% endif %}
+    
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+          <tr>
+            <td>login-Name</td>
+            <td>{{ form.username }}</td>
+          </tr>
+          <tr>
+            <td>Passwort</td>
+            <td>{{ form.password }}</td>
+          </tr>
+        </table>
+        <input type="submit" value="einloggen" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+    
+     
+    
+    {% endblock %}
+  
+</div>
+</div>
+<div class="footer"><h3 class="footer">elgis2inspire by <a href="https:www.elgis.de"><img src="{% static "/images/RGB_Logo_eLGIS.png" %}" width="50px" alt="logo elgis"></a></h3></div>
+
+
+</body>
+
+
+</html>

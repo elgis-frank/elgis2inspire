@@ -1,0 +1,309 @@
+#-------------------------------------------------------
+# Datei hb_wfs Version 1.01 
+#
+#  Programming by eLGIS
+#               
+#      Copyright (C) by elgis ( https://elgis.de ) 2022
+# Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+# Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+# zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# 
+#--------------------------------------------------------
+
+import sys
+from xml.sax import saxutils, make_parser, parseString
+import mapscript
+import sqlite3
+
+
+#Vorbereitung
+
+# Read database*********************************
+# hier wird aus der Datenbank ausgelesen
+class InspireDB:
+	def __init__(self, name):
+		self.name = name
+
+	def inspireID(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select "featureID", "idnamespace"  from hb_habitat where featureID = ?', t):
+			l.append(row)
+		inid = l
+		return inid	
+
+	def referenceHabitatType(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select "referenceHabitatTypeScheme", "referenceHabitatTypeId", "referenceHabitatTypeName" from "hb_HabitatTypeCoverType" where fid = ?', t):
+			l.append(row)
+		rfht = l
+		return rfht
+
+# localNameType  27.7.2020 elgis
+	def localNameType(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l2 = []
+		for row in c.execute('select "localScheme",  "localNameCode", "localName", "qualifierLocalName" from "hb_LocalNameType" where fid = ?', t):
+			l2.append(row)
+		lnt = l2
+		return lnt
+# class zum parsen*********************************
+# XMLGenerator Klasse*******************************
+
+
+class Tweak(saxutils.XMLGenerator):
+	fid = 0
+	epsg = "http://www.opengis.net/def/crs/EPSG/0/3035"
+	def startElement(self, name, attrs):
+		if name == 'wfs:FeatureCollection':			
+			if 'next' in attrs:
+				xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				co = attrs['next']
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3", 'xmlns:gco':"http://www.isotc211.org/2005/gco", 'xmlns:gmd':"http://www.isotc211.org/2005/gmd", 'xmlns:gml':gml,
+ 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",  'xmlns:hb':"http://inspire.ec.europa.eu/schemas/hb/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/hb/4.0 http://inspire.ec.europa.eu/schemas/hb/4.0/HabitatsAndBiotopes.xsd " + gml1,'timeStamp':ts,'numberMatched':nm,'numberReturned':nr, 'next': co}
+			else:
+				xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3", 'xmlns:gco':"http://www.isotc211.org/2005/gco", 'xmlns:gmd':"http://www.isotc211.org/2005/gmd", 'xmlns:gml':gml,
+ 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",  'xmlns:hb':"http://inspire.ec.europa.eu/schemas/hb/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/hb/4.0 http://inspire.ec.europa.eu/schemas/hb/4.0/HabitatsAndBiotopes.xsd " + gml1, 'timeStamp':ts,'numberMatched':nm,'numberReturned':nr}
+		if name == 'hb:msGeometry':
+			name = 'hb:geometry'
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+		if name == 'hb:Habitat':
+			#wegen anderer gml Version vom Geoportal
+			if 'gml:id' in attrs:
+				qid = attrs['gml:id']
+			else:
+				qid = attrs['fid']
+			n = qid.split('.')
+			self.fid = int(n[1])
+		
+		
+	def endElement(self, name):
+		if name == 'hb:msGeometry':
+			name = 'hb:geometry'
+		saxutils.XMLGenerator.endElement(self, name)
+		if name == 'gml:boundedBy':
+			ine = InspireDB(self.fid).inspireID()
+			print("<hb:inspireId><base:Identifier><base:localId>"+ str(ine[0][0]) + "</base:localId><base:namespace>" + ine[0][1] + 
+			"</base:namespace></base:Identifier></hb:inspireId>")
+		if name == 'hb:geometry':
+			e = InspireDB(self.fid).referenceHabitatType()
+			el = InspireDB(self.fid).localNameType()
+			print('<hb:habitat>')
+			for i in range(0, len(e)):
+				print('<hb:HabitatTypeCoverType><hb:referenceHabitatTypeId xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ e[i][1] +'"></hb:referenceHabitatTypeId><hb:referenceHabitatTypeScheme xlink:href="' + e[i][0] +'"></hb:referenceHabitatTypeScheme>')
+				if e[i][2] is None:  #falls es keinen Eunis Namen gibt
+					print('<hb:referenceHabitatTypeName nilReason="inapplicable"></hb:referenceHabitatTypeName>')
+				else:
+					print('<hb:referenceHabitatTypeName>' + e[i][2] + '</hb:referenceHabitatTypeName>')
+				if e[i][0] == 'http://inspire.ec.europa.eu/codelist/ReferenceHabitatTypeSchemeValue/eunis': #nur innerhalb des eunis Bereichs
+					if el[0][3] is None:  #falls es keine EUNIS Übereinstimmung gibt
+						print('<hb:localHabitatName><hb:LocalNameType><hb:localScheme>' + el[0][0] + '</hb:localScheme><hb:localNameCode xlink:href="' + el[0][1] + '"></hb:localNameCode><hb:localName>' + el[0][2] + '</hb:localName><hb:qualifierLocalName nilReason="inapplicable"></hb:qualifierLocalName></hb:LocalNameType></hb:localHabitatName>' )
+					else:
+						print('<hb:localHabitatName><hb:LocalNameType><hb:localScheme>' + el[0][0] + '</hb:localScheme><hb:localNameCode xlink:href="' + el[0][1] + '"></hb:localNameCode><hb:localName>' + el[0][2] + '</hb:localName><hb:qualifierLocalName xlink:href="http://inspire.ec.europa.eu/codelist/QualifierLocalNameValue/' + el[0][3] + '"></hb:qualifierLocalName></hb:LocalNameType></hb:localHabitatName>' )
+				print('</hb:HabitatTypeCoverType>')
+			print('</hb:habitat>')
+# Ende XMLGeneratorklasse ****************************
+# XML generatorklasse für storedquery
+# da wfs:FeatureCollection	hier nicht existiert	
+class Tweakn(saxutils.XMLGenerator):
+	fid = 0
+	def startElement(self, name, attrs):
+		if name == 'hb:Habitat':
+			xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+			if 'http://www.opengis.net/gml/3.2' in xsi:
+				gml = 'http://www.opengis.net/gml/3.2'
+				gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+			elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+				gml = 'http://www.opengis.net/gml'
+				gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+			elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+				gml = 'http://www.opengis.net/gml'
+				gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+			#wegen anderer gml Version vom Geoportal
+			if 'gml:id' in attrs:
+				qid = attrs['gml:id']
+			n = qid.split('.')
+			self.fid = int(n[1])
+			attrs = {'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3", 'xmlns:gco':"http://www.isotc211.org/2005/gco", 'xmlns:gmd':"http://www.isotc211.org/2005/gmd", 'xmlns:gml':gml,
+ 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",  'xmlns:hb':"http://inspire.ec.europa.eu/schemas/hb/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/hb/4.0 http://inspire.ec.europa.eu/schemas/hb/4.0/HabitatsAndBiotopes.xsd "+gml1 }
+		if name == 'hb:msGeometry':
+			name = 'hb:geometry'	
+		
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+		
+			
+	def endElement(self, name):
+		if name == 'hb:msGeometry':
+			name = 'hb:geometry'
+		saxutils.XMLGenerator.endElement(self, name)
+		if name == 'gml:boundedBy':
+			ine = InspireDB(self.fid).inspireID()
+			print("<hb:inspireId><base:Identifier><base:localId>Habitat."+ str(ine[0][0]) + "</base:localId><base:namespace>" + ine[0][1] + 
+			"</base:namespace></base:Identifier></hb:inspireId>")
+		if name == 'hb:geometry':
+			e = InspireDB(self.fid).referenceHabitatType()
+			el = InspireDB(self.fid).localNameType()
+			print('<hb:habitat>')
+			for i in range(0, len(e)):
+				print('<hb:HabitatTypeCoverType><hb:referenceHabitatTypeId xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="'+ e[i][1] +'"></hb:referenceHabitatTypeId><hb:referenceHabitatTypeScheme xlink:href="' + e[i][0] +'"></hb:referenceHabitatTypeScheme>')
+				if e[i][2] is None:  #falls es keinen Eunis Namen gibt
+					print('<hb:referenceHabitatTypeName nilReason="inapplicable"></hb:referenceHabitatTypeName>')
+				else:
+					print('<hb:referenceHabitatTypeName>' + e[i][2] + '</hb:referenceHabitatTypeName>')
+				if e[i][0] == 'http://inspire.ec.europa.eu/codelist/ReferenceHabitatTypeSchemeValue/eunis': #nur innerhalb des eunis Bereichs
+					if el[0][3] is None:  #falls es keine EUNIS Übereinstimmung gibt
+						print('<hb:localHabitatName><hb:LocalNameType><hb:localScheme>' + el[0][0] + '</hb:localScheme><hb:localNameCode xlink:href="' + el[0][1] + '"></hb:localNameCode><hb:localName>' + el[0][2] + '</hb:localName><hb:qualifierLocalName nilReason="inapplicable"></hb:qualifierLocalName></hb:LocalNameType></hb:localHabitatName>' )
+					else:
+						print('<hb:localHabitatName><hb:LocalNameType><hb:localScheme>' + el[0][0] + '</hb:localScheme><hb:localNameCode xlink:href="' + el[0][1] + '"></hb:localNameCode><hb:localName>' + el[0][2] + '</hb:localName><hb:qualifierLocalName xlink:href="http://inspire.ec.europa.eu/codelist/QualifierLocalNameValue/' + el[0][3] + '"></hb:qualifierLocalName></hb:LocalNameType></hb:localHabitatName>' )
+				print('</hb:HabitatTypeCoverType></hb:habitat>')
+		#saxutils.XMLGenerator.endElement(self, name)
+# Ende XMLGeneratorklasse ****************************	
+
+# Ende der Vorbereitung*****************************************************************
+
+
+req = mapscript.OWSRequest()
+req.loadParams()
+if req.getValueByName('csrftoken'):
+	req.setParameter('csrftoken',None)
+if req.getValueByName('sessionid'):
+	req.setParameter('sessionid',None)
+#if req.getValueByName('count') == None:
+	#req.setParameter('count','10')
+map = mapscript.mapObj( '/var/www/inspire/dok/hb.map' )
+# Abfrage abfangen
+reco1 = req.getValueByName('REQUEST')
+#wenn kein request Parameter vorhanden ist
+if not reco1:
+	reco1 = 'Fault'
+reco = reco1.lower()
+#für resultType=hits
+zusatz = req.getValueByName('resultType')
+#Abfrage nach der storedquery_id
+squery = req.getValueByName('storedquery_id')
+if squery == 'urn:ogc:def:query:OGC-WFS::GetFeatureById':
+	squery = 'OK'
+#Frage nachfehlenden Parametern
+
+names = req.getValueByName('typenames')
+tn = 'false'
+if names == 'Habitat':
+	tn = 'true'
+elif not names:
+	tn = 'true'
+gml = req.getValueByName('outputFormat')
+#verschiedene Versionen einspielen
+if gml == 'application/gml+xml; version=3.2' or not gml or gml == 'text/xml; subtype=gml/3.2.1':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/HabitatsAndBiotopes.xsd"
+elif gml == 'text/xml; subtype=gml/3.1.1':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/HabitatsAndBiotopes_3.1.xsd"
+elif gml == 'text/xml; subtype=gml/2.1.2':
+	df = 'true'
+	dokxsd = "/var/www/inspire/dok/xsd/HabitatsAndBiotopes_2.1.xsd"
+else:
+	df = 'false'
+#fehlender service parameter
+recop3 = req.getValueByName('SERVICE')
+if recop3:
+	recol = recop3.lower()
+
+if not recop3 or recol != 'wfs' :
+	answer = '''<?xml version="1.0" encoding="UTF-8"?>
+<ows:ExceptionReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ows="http://www.opengis.net/ows/1.1" version="2.0.0" xml:lang="en-US" xsi:schemaLocation="http://www.opengis.net/ows/1.1 http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd">
+  <ows:Exception exceptionCode="InvalidParameterValue" locator="request">
+    <ows:ExceptionText>msWFSDispatch(): WFS server error. Invalid Service request: Parameter wrong or missing</ows:ExceptionText>
+  </ows:Exception>
+</ows:ExceptionReport>
+    '''
+	print('header:text/xml')
+	print('')
+	print(answer)
+#Auswertung der requests
+elif reco == 'describefeaturetype' and df == 'true' and tn == 'true':
+	mapscript.msIO_installStdoutToBuffer()
+	map.OWSDispatch( req )
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+	f = open(dokxsd)
+	xsd = f.read()
+	#print('Content-type: ' + ct)
+	print('Content-type:text/xml' )
+	print('')
+	print(xsd)
+	
+
+#
+# Do special processing for GetFeature
+#
+elif reco == 'getfeature' and zusatz == None and squery == None:
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweak(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+elif reco == 'getfeature' and zusatz == None and squery == 'OK': #für storedquery
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweakn(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+
+else:
+	map.OWSDispatch( req )

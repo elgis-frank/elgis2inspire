@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:base="http://inspire.ec.europa.eu/schemas/base/3.3" xmlns:base2="http://inspire.ec.europa.eu/schemas/base2/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sc="http://www.interactive-instruments.de/ShapeChange/AppInfo" xmlns:sd="http://inspire.ec.europa.eu/schemas/sd/4.0" elementFormDefault="qualified" targetNamespace="http://inspire.ec.europa.eu/schemas/sd/4.0" version="4.0">
+  <annotation>
+    <documentation>Application schema for Species Distribution</documentation>
+  </annotation>
+  <import namespace="http://inspire.ec.europa.eu/schemas/base/3.3" schemaLocation="https://inspire.ec.europa.eu/schemas/base/3.3/BaseTypes.xsd"/>
+  <import namespace="http://inspire.ec.europa.eu/schemas/base2/2.0" schemaLocation="https://inspire.ec.europa.eu/schemas/base2/2.0/BaseTypes2.xsd"/>
+   <import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd"/>
+  <element name="DistributionInfoType" substitutionGroup="gml:AbstractObject" type="sd:DistributionInfoTypeType">
+      </element>
+  <complexType name="DistributionInfoTypeType">
+    <sequence>
+      <element name="occurrenceCategory" type="gml:ReferenceType">
+              </element>
+      <element minOccurs="0" name="residencyStatus" nillable="true" type="gml:ReferenceType">
+              </element>
+      <element minOccurs="0" name="populationSize" nillable="true">
+                <complexType>
+          <sequence>
+            <element ref="sd:PopulationSizeType"/>
+          </sequence>
+          <attribute name="nilReason" type="gml:NilReasonType"/>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="sensitiveInfo" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="boolean">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="populationType" nillable="true" type="gml:ReferenceType">
+              </element>
+      <element name="collectedFrom" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="date">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element name="collectedTo" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="date">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="DistributionInfoTypePropertyType">
+    <sequence>
+      <element ref="sd:DistributionInfoType"/>
+    </sequence>
+  </complexType>
+  <element name="PopulationSizeType" substitutionGroup="gml:AbstractObject" type="sd:PopulationSizeTypeType">
+      </element>
+  <complexType name="PopulationSizeTypeType">
+    <sequence>
+      <element name="countingMethod" type="gml:ReferenceType">
+              </element>
+      <element name="countingUnit" type="gml:ReferenceType">
+              </element>
+      <element name="populationSize" type="sd:RangeTypePropertyType">
+              </element>
+    </sequence>
+  </complexType>
+  <complexType name="PopulationSizeTypePropertyType">
+    <sequence>
+      <element ref="sd:PopulationSizeType"/>
+    </sequence>
+  </complexType>
+  <element name="RangeType" substitutionGroup="gml:AbstractObject" type="sd:RangeTypeType">
+      </element>
+  <complexType name="RangeTypeType">
+    <sequence>
+      <element minOccurs="0" name="upperBound" type="integer">
+              </element>
+      <element minOccurs="0" name="lowerBound" type="integer">
+              </element>
+    </sequence>
+  </complexType>
+  <complexType name="RangeTypePropertyType">
+    <sequence>
+      <element ref="sd:RangeType"/>
+    </sequence>
+  </complexType>
+  <element name="SpeciesDistributionDataSet" substitutionGroup="gml:AbstractFeature" type="sd:SpeciesDistributionDataSetType">
+      </element>
+  <complexType name="SpeciesDistributionDataSetType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element minOccurs="0" name="inspireId" type="base:IdentifierPropertyType">
+              </element>
+          <element name="name" nillable="true">
+              <complexType>
+              <simpleContent>
+                <extension base="string">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element name="domainExtent" nillable="true" type="gml:MultiSurfacePropertyType">
+                </element>
+          <element name="beginLifespanVersion" nillable="true">
+             <complexType>
+              <simpleContent>
+                <extension base="dateTime">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="endLifespanVersion" nillable="true">
+              <complexType>
+              <simpleContent>
+                <extension base="dateTime">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" minOccurs="0" name="documentBasis" nillable="true">
+             <complexType>
+              <sequence minOccurs="0">
+                <element ref="base2:DocumentCitation"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+              <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" name="member" type="sd:SpeciesDistributionUnitPropertyType">
+              </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="SpeciesDistributionDataSetPropertyType">
+    <sequence minOccurs="0">
+      <element ref="sd:SpeciesDistributionDataSet"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <element name="SpeciesDistributionUnit" substitutionGroup="gml:AbstractFeature" type="sd:SpeciesDistributionUnitType">
+      </element>
+  <complexType name="SpeciesDistributionUnitType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element minOccurs="0" name="inspireId" type="base:IdentifierPropertyType">
+                      </element>
+          <element minOccurs="0" name="msGeometry" type="gml:GeometryPropertyType">
+                      </element>
+          <element name="speciesName" type="sd:SpeciesNameTypePropertyType">
+                      </element>
+          <element maxOccurs="unbounded" minOccurs="0" name="distributionInfo" nillable="true">
+                        <complexType>
+              <sequence>
+                <element ref="sd:DistributionInfoType"/>
+              </sequence>
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </complexType>
+          </element>
+          <element name="beginLifespanVersion" nillable="true">
+                        <complexType>
+              <simpleContent>
+                <extension base="dateTime">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="endLifespanVersion" nillable="true">
+                        <complexType>
+              <simpleContent>
+                <extension base="dateTime">
+                  <attribute name="nilReason" type="gml:NilReasonType"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="spatialObject" nillable="true" type="gml:FeaturePropertyType">
+                      </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="SpeciesDistributionUnitPropertyType">
+    <sequence minOccurs="0">
+      <element ref="sd:SpeciesDistributionUnit"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <element name="SpeciesNameType" substitutionGroup="gml:AbstractObject" type="sd:SpeciesNameTypeType">
+      </element>
+  <complexType name="SpeciesNameTypeType">
+    <sequence>
+      <element name="referenceSpeciesId" type="gml:ReferenceType">
+              </element>
+      <element name="referenceSpeciesScheme" type="gml:ReferenceType">
+              </element>
+      <element name="referenceSpeciesName" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="localSpeciesId" nillable="true" type="gml:ReferenceType">
+              </element>
+      <element minOccurs="0" name="localSpeciesScheme" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="localSpeciesName" nillable="true">
+                <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="nilReason" type="gml:NilReasonType"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="qualifier" nillable="true" type="gml:ReferenceType">
+             </element>
+    </sequence>
+  </complexType>
+  <complexType name="SpeciesNameTypePropertyType">
+    <sequence>
+      <element ref="sd:SpeciesNameType"/>
+    </sequence>
+  </complexType>
+</schema>

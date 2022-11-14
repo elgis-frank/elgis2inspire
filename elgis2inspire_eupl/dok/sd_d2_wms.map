@@ -1,0 +1,166 @@
+MAP
+  NAME "speciesdistribution"
+  STATUS ON
+  SIZE 400 300
+  EXTENT 4021379 2871487 4214276 3093359
+  UNITS meters
+  #SHAPEPATH "../data"
+  IMAGECOLOR 255 255 255
+  CONFIG "MS_ERRORFILE" "/var/www/inspire/dok/ms_error.txt"
+  #
+  # Start of web interface definition
+  #
+  WEB
+    IMAGEPATH "/var/www/inspire/static/tmp/"
+    IMAGEURL "/static/tmp/"
+  METADATA
+  "ows_inspire_capabilities" "embed"
+  "ows_languages" "eng,ger"               #first default, values according ISO 639-2/B
+   # extended capabilities
+  "ows_inspire_temporal_reference" "2022-06-08"     #date of last revision, value according YYYY-MM-DD
+  "ows_inspire_mpoc_name" "Lanis Zentrale"                                          #point of contact
+  "ows_inspire_mpoc_email" "poststelle@sgdnord.rlp.de"           #point of contact, no personal email
+  "ows_inspire_metadatadate" "2022-06-08"
+  "ows_inspire_resourcelocator" "https://inspire.naturschutz.rlp.de/cgi-bin/wfs//sd_d2wms"
+  "ows_inspire_keyword" "infoMapAccessService" 
+  #wms metadata
+  "wms_contactperson" "Dr. Thomas Nette"
+  "wms_contactorganization" "Lanis Zentrale bei der SGD Nord"
+  "wms_contactposition" "Point of Contact"
+  "wms_contactvoicetelephone" "+492611202112"
+  "wms_contactelectronicmailaddress" "Thomas.Nette@sgdnord.rlp.de"
+  "wms_postcode" "D-56068"
+  "wms_address" "Stresemannstr. 3-5"
+  "wms_city" "Koblenz"
+  "wms_stateorprovince" "Rhineland-Pallatine"
+  "wms_country" "DE"
+  "wms_addresstype" "postal"  
+  "wms_title.eng"  "birds of pallatine"
+  "wms_title.ger"   "Vögel der Pfalz"
+  "wms_abstract.eng" "distribution of some birds in the region of pallatine"
+  "wms_abstract.ger" "Verbrbeitung einiger Vogelarten der Pfalz"
+  "wms_onlineresource"   "https://inspire.naturschutz.rlp.de/cgi-bin/wfs//sd_d2_wms"
+  "wms_srs"   "EPSG:3035 EPSG:4269 EPSG:4326 EPSG:25832" 
+  "wms_enable_request" "*"
+  END
+END
+  PROJECTION
+    "init=epsg:3035"
+  END
+  
+    #
+  # Start of layer definitions
+  #
+   
+  
+    LAYER
+    NAME "SD.Dendrocoposmajor"
+    METADATA
+    "wms_title"         "Species Distribution of (Dendrocoposmajor)" ##REQUIRED
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    #"gml_include_items" "all" ## Optional (serves all attributes for layer)
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    "wms_keywordlist_vocabulary" "GEMET"   
+    "wms_keywordlist_GEMET_items" "species"
+    "wms_authorityurl_name" "SGD Nord als Lanis Z"
+    "wms_authorityurl_href" "https://sgdnord.rlp.de"
+    "wms_identifier_authority" "SGD Nord als Lanis Z"
+    "wms_identifier_value" "Point of Contact"
+    "wms_metadataurl_format" "text/xml"
+    "wms_metadataurl_href"  "any"
+    "wms_metadataurl_type" "TC211"
+           
+    END 
+    
+    TYPE POLYGON
+    STATUS ON
+    CONNECTIONTYPE OGR
+    CONNECTION "/var/www/inspire/db.sqlite3"
+    DATA "select localID, the_geom from sd_speciesdistributionunit where referenceSpeciesName = 'Dendrocopos major'"
+    PROJECTION
+      "init=epsg:3035"
+    END
+    CLASS
+      NAME 'sd'
+      STYLE
+        OPACITY 50
+        COLOR 80 80 80
+        OUTLINECOLOR 0 0 0
+      END
+    END
+  END #layer
+  
+    LAYER
+    NAME "SD.Milvusmilvus"
+    METADATA
+    "wms_title"         "Species Distribution of (Milvusmilvus)" ##REQUIRED
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    #"gml_include_items" "all" ## Optional (serves all attributes for layer)
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    "wms_keywordlist_vocabulary" "GEMET"   
+    "wms_keywordlist_GEMET_items" "species"
+    "wms_authorityurl_name" "SGD Nord als Lanis Z"
+    "wms_authorityurl_href" "https://sgdnord.rlp.de"
+    "wms_identifier_authority" "SGD Nord als Lanis Z"
+    "wms_identifier_value" "Point of Contact"
+    "wms_metadataurl_format" "text/xml"
+    "wms_metadataurl_href"  "any"
+    "wms_metadataurl_type" "TC211"
+           
+    END 
+    
+    TYPE POLYGON
+    STATUS ON
+    CONNECTIONTYPE OGR
+    CONNECTION "/var/www/inspire/db.sqlite3"
+    DATA "select localID, the_geom from sd_speciesdistributionunit where referenceSpeciesName = 'Milvus milvus'"
+    PROJECTION
+      "init=epsg:3035"
+    END
+    CLASS
+      NAME 'sd'
+      STYLE
+        OPACITY 50
+        COLOR 80 80 80
+        OUTLINECOLOR 0 0 0
+      END
+    END
+  END #layer
+  
+    LAYER
+    NAME "SD.Picusviridis"
+    METADATA
+    "wms_title"         "Species Distribution of (Picusviridis)" ##REQUIRED
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    #"gml_include_items" "all" ## Optional (serves all attributes for layer)
+    "wms_srs"           "EPSG:3035" ## REQUIRED
+    "wms_keywordlist_vocabulary" "GEMET"   
+    "wms_keywordlist_GEMET_items" "species"
+    "wms_authorityurl_name" "SGD Nord als Lanis Z"
+    "wms_authorityurl_href" "https://sgdnord.rlp.de"
+    "wms_identifier_authority" "SGD Nord als Lanis Z"
+    "wms_identifier_value" "Point of Contact"
+    "wms_metadataurl_format" "text/xml"
+    "wms_metadataurl_href"  "any"
+    "wms_metadataurl_type" "TC211"
+           
+    END 
+    
+    TYPE POLYGON
+    STATUS ON
+    CONNECTIONTYPE OGR
+    CONNECTION "/var/www/inspire/db.sqlite3"
+    DATA "select localID, the_geom from sd_speciesdistributionunit where referenceSpeciesName = 'Picus viridis'"
+    PROJECTION
+      "init=epsg:3035"
+    END
+    CLASS
+      NAME 'sd'
+      STYLE
+        OPACITY 50
+        COLOR 80 80 80
+        OUTLINECOLOR 0 0 0
+      END
+    END
+  END #layer
+      END

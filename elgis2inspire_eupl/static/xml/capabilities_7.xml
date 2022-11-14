@@ -1,0 +1,319 @@
+<ns0:WFS_Capabilities xmlns:ns0="http://www.opengis.net/wfs/2.0" xmlns:ns2="http://www.opengis.net/ows/1.1" xmlns:ns3="http://www.w3.org/1999/xlink" xmlns:ns4="http://inspire.ec.europa.eu/schemas/inspire_dls/1.0" xmlns:ns5="http://inspire.ec.europa.eu/schemas/common/1.0" xmlns:ns6="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.0" xsi:schemaLocation="http://schemas.opengis.net/wfs/2.0/wfs.xsd">  
+  <ns2:ServiceIdentification> 
+   <ns2:Title>habitatsandbiotopes</ns2:Title>
+    <ns2:Abstract>habitats and biotopes</ns2:Abstract>
+    <ns2:Keywords>
+      <ns2:Keyword>habitats </ns2:Keyword>
+      <ns2:Keyword> biotopes</ns2:Keyword>
+      <ns2:Keyword>nature protection</ns2:Keyword>
+    </ns2:Keywords>
+    <ns2:ServiceType codeSpace="OGC">WFS</ns2:ServiceType>
+    <ns2:ServiceTypeVersion>2.0.0</ns2:ServiceTypeVersion>
+    <ns2:Fees>no fee</ns2:Fees>
+    <ns2:AccessConstraints>licence odb 3.0</ns2:AccessConstraints>
+  </ns2:ServiceIdentification>
+  <ns2:ServiceProvider>
+    <ns2:ProviderName>eLGIS</ns2:ProviderName>
+    <ns2:ProviderSite ns3:href="https://elgis.de" ns3:type="simple" />
+    <ns2:ServiceContact>
+      <ns2:IndividualName>Frank Lemke</ns2:IndividualName>
+      <ns2:PositionName>consultant</ns2:PositionName>
+      <ns2:ContactInfo>
+        <ns2:Phone><ns2:Voice>+4922249601567</ns2:Voice></ns2:Phone>
+        <ns2:Address>
+            <ns2:City>Am Kelter 6, Unkel</ns2:City>
+            <ns2:PostalCode>D-53572</ns2:PostalCode>
+            <ns2:Country>Germany</ns2:Country>
+            <ns2:ElectronicMailAddress>Lemke@elgis.de</ns2:ElectronicMailAddress>
+        </ns2:Address>
+        <ns2:OnlineResource ns3:href="https://elgis.de/impressum.html" ns3:type="simple">https://elgis.de/impressum.html</ns2:OnlineResource>
+        <ns2:HoursOfService>9:00-16:00</ns2:HoursOfService>
+        <ns2:ContactInstructions>software developer</ns2:ContactInstructions>
+      </ns2:ContactInfo>
+      <ns2:Role>GIS Consultant</ns2:Role>
+    </ns2:ServiceContact>
+  </ns2:ServiceProvider>
+ <ns2:OperationsMetadata>
+    <ns2:Operation name="GetCapabilities">
+      <ns2:DCP>
+        <ns2:HTTP>
+          <ns2:Get ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+          <ns2:Post ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+        </ns2:HTTP>
+      </ns2:DCP>
+      <ns2:Parameter name="AcceptVersions">
+        <ns2:AllowedValues>
+          <ns2:Value>2.0.0</ns2:Value>
+           </ns2:AllowedValues>
+      </ns2:Parameter>
+      <ns2:Parameter name="AcceptFormats">
+        <ns2:AllowedValues>
+          <ns2:Value>text/xml</ns2:Value>
+        </ns2:AllowedValues>
+      </ns2:Parameter>
+      <ns2:Parameter name="Sections">
+        <ns2:AllowedValues>
+          <ns2:Value>ServiceIdentification</ns2:Value>
+          <ns2:Value>ServiceProvider</ns2:Value>
+          <ns2:Value>OperationsMetadata</ns2:Value>
+          <ns2:Value>FeatureTypeList</ns2:Value>
+          <ns2:Value>Filter_Capabilities</ns2:Value>
+        </ns2:AllowedValues>
+      </ns2:Parameter>
+    </ns2:Operation>
+    <ns2:Operation name="DescribeFeatureType">
+      <ns2:DCP>
+        <ns2:HTTP>
+          <ns2:Get ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+          <ns2:Post ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+        </ns2:HTTP>
+      </ns2:DCP>
+      <ns2:Parameter name="outputFormat">
+        <ns2:AllowedValues>
+          <ns2:Value>application/gml+xml; version=3.2</ns2:Value>
+        </ns2:AllowedValues>
+      </ns2:Parameter>
+    </ns2:Operation>
+    <ns2:Operation name="GetFeature">
+      <ns2:DCP>
+        <ns2:HTTP>
+          <ns2:Get ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+          <ns2:Post ns3:type="simple" ns3:href="https://inspire.elgis.de/cgi-bin/7_hb_wfs" />
+        </ns2:HTTP>
+      </ns2:DCP>
+      <ns2:Parameter name="outputFormat">
+        <ns2:AllowedValues>
+          <ns2:Value>application/gml+xml; version=3.2</ns2:Value>
+        </ns2:AllowedValues>
+      </ns2:Parameter>
+    </ns2:Operation>
+   <ns2:Constraint name="KVPEncoding">
+      <ns2:NoValues />
+      <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="XMLEncoding">
+      <ns2:NoValues />
+      <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="SOAPEncoding">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsInheritance">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsRemoteResolve">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsResultPaging">
+      <ns2:NoValues />
+      <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsStandardJoins">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsSpatialJoins">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsTemporalJoins">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="ImplementsFeatureVersioning">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="PagingIsTransactionSafe">
+      <ns2:NoValues />
+      <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="CountDefault">
+      <ns2:NoValues />
+      <ns2:DefaultValue>1000</ns2:DefaultValue>
+    </ns2:Constraint>
+    <ns2:Constraint name="QueryExpressions">
+      <ns2:AllowedValues>
+        <ns2:Value>wfs:Query</ns2:Value>
+      </ns2:AllowedValues>
+    </ns2:Constraint>
+    <ns2:ExtendedCapabilities>
+			<ns4:ExtendedCapabilities>
+				<ns5:ResourceType>service</ns5:ResourceType>
+				<ns5:TemporalReference />
+				<ns5:Conformity>
+					<ns5:Specification>
+						<ns5:Title>HabitatsAndBiotopes</ns5:Title>
+						<ns5:DateOfPublication>05.10.2021</ns5:DateOfPublication>
+					</ns5:Specification>
+					<ns5:Degree>notEvaluated</ns5:Degree>
+				</ns5:Conformity>
+				<ns5:MetadataPointOfContact>
+					<ns5:OrganisationName>eLGIS</ns5:OrganisationName>
+					<ns5:EmailAddress>lemke@elgis.de</ns5:EmailAddress>
+				</ns5:MetadataPointOfContact>
+				<ns5:MetadataDate>05.10.2021</ns5:MetadataDate>
+				<ns5:SpatialDataServiceType>view</ns5:SpatialDataServiceType>
+				<ns5:MandatoryKeyword>
+					<ns5:KeywordValue>chainDefinitionService</ns5:KeywordValue>
+					
+				</ns5:MandatoryKeyword>
+				<ns5:SupportedLanguages>
+					<ns5:DefaultLanguage>
+						<ns5:Language>eng</ns5:Language>
+					</ns5:DefaultLanguage>
+					<ns5:ResponseLanguage>
+					<ns5:Language>eng</ns5:Language>
+				</ns5:ResponseLanguage>
+				</ns5:SupportedLanguages>
+				<ns4:SpatialDataUniqueResourceIdentifier>
+					<ns5:Code>/cgi-bin/7_hb_wfs</ns5:Code>
+					<ns5:Namespace>https://elgis.de</ns5:Namespace>
+				</ns4:SpatialDataUniqueResourceIdentifier>
+			</ns4:ExtendedCapabilities>
+		</ns2:ExtendedCapabilities>
+  </ns2:OperationsMetadata>
+  <ns0:FeatureTypeList>
+    <ns0:FeatureType>
+      <ns0:Name>hb:HabitatsAndBiotopes</ns0:Name>
+      <ns0:Title>HabitatsAndBiotopes</ns0:Title>
+      <ns0:DefaultCRS>urn:ogc:def:crs:EPSG::3035</ns0:DefaultCRS>
+      <ns0:OtherCRS>urn:ogc:def:crs:EPSG::4326</ns0:OtherCRS>
+      <ns0:OtherCRS>urn:ogc:def:crs:EPSG::4269</ns0:OtherCRS>
+      <ns0:OtherCRS>urn:ogc:def:crs:EPSG::3978</ns0:OtherCRS>
+      <ns0:OtherCRS>urn:ogc:def:crs:EPSG::3857</ns0:OtherCRS>
+      <ns0:OutputFormats>
+        <ns0:Format>application/gml+xml; version=3.2</ns0:Format>
+        <ns0:Format>text/xml; subtype=gml/3.2.1</ns0:Format>
+        <ns0:Format>text/xml; subtype=gml/3.1.1</ns0:Format>
+        <ns0:Format>text/xml; subtype=gml/2.1.2</ns0:Format>
+      </ns0:OutputFormats>
+      <ns2:WGS84BoundingBox dimensions="2">
+        <ns2:LowerCorner>6.0430973570249 48.9170612085904</ns2:LowerCorner>
+        <ns2:UpperCorner>8.52046744202733 50.9509401120131</ns2:UpperCorner>
+      </ns2:WGS84BoundingBox>
+      <ns0:MetadataURL ns3:href="http://geoportal.rlp.de" />
+    </ns0:FeatureType>
+  </ns0:FeatureTypeList>
+  <ns6:Filter_Capabilities>
+    <ns6:Conformance>
+      <ns6:Constraint name="ImplementsQuery">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsAdHocQuery">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsFunctions">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsResourceId">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsMinStandardFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsStandardFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsMinSpatialFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsSpatialFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsMinTemporalFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsTemporalFilter">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsVersionNav">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsSorting">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsExtendedOperators">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsMinimumXPath">
+        <ns2:NoValues />
+        <ns2:DefaultValue>TRUE</ns2:DefaultValue>
+      </ns6:Constraint>
+      <ns6:Constraint name="ImplementsSchemaElementFunc">
+        <ns2:NoValues />
+        <ns2:DefaultValue>FALSE</ns2:DefaultValue>
+      </ns6:Constraint>
+    </ns6:Conformance>
+    <ns6:Id_Capabilities>
+      <ns6:ResourceIdentifier name="fes:ResourceId" />
+    </ns6:Id_Capabilities>
+    <ns6:Scalar_Capabilities>
+      <ns6:LogicalOperators />
+      <ns6:ComparisonOperators>
+        <ns6:ComparisonOperator name="PropertyIsEqualTo" />
+        <ns6:ComparisonOperator name="PropertyIsNotEqualTo" />
+        <ns6:ComparisonOperator name="PropertyIsLessThan" />
+        <ns6:ComparisonOperator name="PropertyIsGreaterThan" />
+        <ns6:ComparisonOperator name="PropertyIsLessThanOrEqualTo" />
+        <ns6:ComparisonOperator name="PropertyIsGreaterThanOrEqualTo" />
+        <ns6:ComparisonOperator name="PropertyIsLike" />
+        <ns6:ComparisonOperator name="PropertyIsBetween" />
+      </ns6:ComparisonOperators>
+    </ns6:Scalar_Capabilities>
+    <ns6:Spatial_Capabilities>
+      <ns6:GeometryOperands>
+        <ns6:GeometryOperand name="gml:Point" />
+        <ns6:GeometryOperand name="gml:MultiPoint" />
+        <ns6:GeometryOperand name="gml:LineString" />
+        <ns6:GeometryOperand name="gml:MultiLineString" />
+        <ns6:GeometryOperand name="gml:Curve" />
+        <ns6:GeometryOperand name="gml:MultiCurve" />
+        <ns6:GeometryOperand name="gml:Polygon" />
+        <ns6:GeometryOperand name="gml:MultiPolygon" />
+        <ns6:GeometryOperand name="gml:Surface" />
+        <ns6:GeometryOperand name="gml:MultiSurface" />
+        <ns6:GeometryOperand name="gml:Box" />
+        <ns6:GeometryOperand name="gml:Envelope" />
+      </ns6:GeometryOperands>
+      <ns6:SpatialOperators>
+        <ns6:SpatialOperator name="Equals" />
+        <ns6:SpatialOperator name="Disjoint" />
+        <ns6:SpatialOperator name="Touches" />
+        <ns6:SpatialOperator name="Within" />
+        <ns6:SpatialOperator name="Overlaps" />
+        <ns6:SpatialOperator name="Crosses" />
+        <ns6:SpatialOperator name="Intersects" />
+        <ns6:SpatialOperator name="Contains" />
+        <ns6:SpatialOperator name="DWithin" />
+        <ns6:SpatialOperator name="Beyond" />
+        <ns6:SpatialOperator name="BBOX" />
+      </ns6:SpatialOperators>
+    </ns6:Spatial_Capabilities>
+    <ns6:Temporal_Capabilities>
+      <ns6:TemporalOperands>
+        <ns6:TemporalOperand name="gml:TimePeriod" />
+        <ns6:TemporalOperand name="gml:TimeInstant" />
+      </ns6:TemporalOperands>
+      <ns6:TemporalOperators>
+        <ns6:TemporalOperator name="During" />
+      </ns6:TemporalOperators>
+    </ns6:Temporal_Capabilities>
+  </ns6:Filter_Capabilities>
+</ns0:WFS_Capabilities>

@@ -1,0 +1,364 @@
+#-------------------------------------------------------
+# Datei sd_d1_wfs Version 1.01 
+#
+#  Programming by eLGIS
+#               
+#      Copyright (C) by elgis ( https://elgis.de ) 2022
+# Diese Datei ist Bestandteil der Software elgis2inspire, erhältlich unter https://github.com/elgis-frank/elgis2inspire .
+# Diese Software wird unter der European Union Public Licence (EUPL-1.2) bereitgestellt. Bitte beachten Sie die Bestimmungen der Lizenz, insbesondere
+# zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+# 
+#--------------------------------------------------------
+
+import sys
+from xml.sax import saxutils, make_parser, parseString
+import mapscript
+import sqlite3
+#import spatialite
+from datetime import datetime
+
+#Vorbereitung
+
+# Read database*********************************
+# hier wird aus der Datenbank ausgelesen
+class InspireDB:
+	def __init__(self, name):
+		self.name = name
+		
+
+	def sddataset(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,)
+		l = []		
+		for row in c.execute('select localID, namespace, versionId, name, beginLifespanVersion, endLifespanVersion, domainExtent from sd_speciesdistributiondataset where localID = ?', t):
+			l.append(row)
+		inid = l
+		return inid	
+
+	def sdunit(self):
+		conn = sqlite3.connect('/var/www/inspire/db.sqlite3')
+		c = conn.cursor()
+		t = (self.name,1 )
+		l = []		
+		for row in c.execute('select sddi, localID, namespace, referenceSpeciesId, referenceSpeciesScheme, referenceSpeciesName from sd_speciesdistributionunit where localID = ? AND sddi = ?' , t):
+			l.append(row)
+		sdt = l
+		return sdt
+		
+# class zum parsen*********************************
+# XMLGenerator Klasse*******************************
+# **************************************************
+class Tweak(saxutils.XMLGenerator):
+	def startElement(self, name, attrs):
+		if name == 'wfs:FeatureCollection':
+			if 'next' in attrs:
+				xsi = attrs['xsi:schemaLocation']
+				# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				co = attrs['next']
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:ad':"http://inspire.ec.europa.eu/schemas/ad/4.0", 
+				'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3",'xmlns:base2':"http://inspire.ec.europa.eu/schemas/base2/2.0",
+				'xmlns:gco':"http://www.isotc211.org/2005/gco",'xmlns:gmd':"http://www.isotc211.org/2005/gmd",'xmlns:gml':gml,
+				'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0", 'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 
+				'xmlns:gts':"http://www.isotc211.org/2005/gts", 'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 
+				'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance", 
+				'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/sd/4.0 http://inspire.ec.europa.eu/schemas/sd/4.0/SpeciesDistribution.xsd  " + gml1, 'timeStamp':ts,'numberMatched':nm,'numberReturned':nr, 'next': co}
+			else:
+				xsi = attrs['xsi:schemaLocation']
+			# 3 gml Versionen berücksichtigen
+				if 'http://www.opengis.net/gml/3.2' in xsi:
+					gml = 'http://www.opengis.net/gml/3.2'
+					gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/3.1.1/base/gml.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd'
+				elif 'http://schemas.opengis.net/gml/2.1.2/feature.xsd' in xsi:
+					gml = 'http://www.opengis.net/gml'
+					gml1 = 'http://www.opengis.net/gml http://schemas.opengis.net/gml/2.1.2/feature.xsd'
+				ts = attrs['timeStamp']
+				nm = attrs['numberMatched']
+				nr = attrs['numberReturned']
+				attrs = {'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:ad':"http://inspire.ec.europa.eu/schemas/ad/4.0", 
+				'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3",'xmlns:base2':"http://inspire.ec.europa.eu/schemas/base2/2.0",'xmlns:gco':"http://www.isotc211.org/2005/gco",
+				'xmlns:gmd':"http://www.isotc211.org/2005/gmd",'xmlns:gml':gml,'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0", 
+				'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 
+				'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 
+				'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/sd/4.0 http://inspire.ec.europa.eu/schemas/sd/4.0/SpeciesDistribution.xsd  " + gml1, 'timeStamp':ts,'numberMatched':nm,'numberReturned':nr}
+		if name == 'wfs:boundedBy':
+			e = InspireDB(1).sddataset()
+			# Zeit von Datum auf datetime ändern
+			# to do Zeitformat ermitteln
+			zeit1 = e[0][4] + ' 00:00:00'
+			date1 = datetime.strptime(zeit1, '%d.%m.%Y %H:%M:%S')
+			dt1 = date1.strftime("%Y-%m-%dT%H:%M:%S")
+			zeit2 = e[0][5] + ' 00:00:00'
+			date2 = datetime.strptime(zeit2, '%d.%m.%Y %H:%M:%S')
+			dt2 = date2.strftime("%Y-%m-%dT%H:%M:%S")
+			print('<sd:SpeciesDistributionDataSet gml:id="SpeciesDistributionDataSet.' + str(e[0][0]) + '">')
+			print('<sd:inspireId>')
+			print('<base:Identifier>')
+			print('<base:localId>SpeciesDistributionDataSet.'+ str(e[0][0]) + '</base:localId>')
+			print('<base:namespace>' + e[0][1] + '</base:namespace>')
+			print('<base:versionId >' + e[0][2] + '</base:versionId>')
+			print('</base:Identifier>')
+			print('</sd:inspireId>')
+			print('<sd:name >sd:' + e[0][3] + '</sd:name>')
+			print('<sd:domainExtent  xlink:href="' + e[0][6] + '" ></sd:domainExtent>')
+			print('<sd:beginLifespanVersion>' + dt1 + '</sd:beginLifespanVersion>')
+			print('<sd:endLifespanVersion >' + dt2 + '</sd:endLifespanVersion>')
+			print('<sd:documentBasis nilReason="inapplicable" />')
+		if name == 'sd:msGeometry':
+			name = 'sd:geometry'
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+		if name == 'sd:SpeciesDistributionUnit':
+			#wegen anderer gml Version vom Geoportal
+			if 'gml:id' in attrs:
+				qid = attrs['gml:id']
+			else:
+				qid = attrs['fid']
+			n = qid.split('.')
+			fid = int(n[1])
+			#fid = n
+			el = InspireDB(fid).sdunit()
+			print('<sd:inspireId>')
+			print('<base:Identifier>')
+			print('<base:localId>SpeciesDistributionUnit.' + el[0][1] + '</base:localId>')
+			print('<base:namespace>' + el[0][2] + '</base:namespace>')
+			print('</base:Identifier>')
+			print('</sd:inspireId>')
+			print('<sd:speciesName>')
+			print('<sd:SpeciesNameType>')
+			print('<sd:referenceSpeciesId xlink:actuate="onLoad"  xlink:href="' + el[0][3] + '"/>')
+			print('<sd:referenceSpeciesScheme  xlink:actuate="onLoad"  xlink:href="' + el[0][4] + '"/>')
+			print('<sd:referenceSpeciesName >sd:' + el[0][5] + '</sd:referenceSpeciesName>')
+			print('</sd:SpeciesNameType>')
+			print('</sd:speciesName>')
+			print('<sd:distributionInfo nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"/>')
+	def	endElement(self, name):
+		if name == 'sd:msGeometry':
+			name = 'sd:geometry' 
+		if name == 'wfs:FeatureCollection':
+			print('</sd:SpeciesDistributionDataSet>')
+		saxutils.XMLGenerator.endElement(self, name)
+# Ende XMLGeneratorklasse main *********************************************
+# **************************************************************************
+# **************************************************************************	
+#  XMLGenerator Klasse für stored query extra*******************************	
+class Tweakn(saxutils.XMLGenerator):
+	gmlid = ''
+	def startElement(self, name, attrs):
+		e = InspireDB(1).sddataset()
+		# Zeit von Datum auf datetime ändern
+		# to do Zeitformat ermitteln
+		zeit1 = e[0][4] + ' 00:00:00'
+		date1 = datetime.strptime(zeit1, '%d.%m.%Y %H:%M:%S')
+		dt1 = date1.strftime("%Y-%m-%dT%H:%M:%S")
+		zeit2 = e[0][5] + ' 00:00:00'
+		date2 = datetime.strptime(zeit2, '%d.%m.%Y %H:%M:%S')
+		dt2 = date2.strftime("%Y-%m-%dT%H:%M:%S")
+		gml = 'http://www.opengis.net/gml/3.2'
+		gml1 = 'http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd'
+		if name == 'sd:SpeciesDistributionUnit':
+			self.gmlid = attrs['gml:id']
+			name = 'sd:SpeciesDistributionDataSet'
+			attrs = { 'gml:id':'SpeciesDistributionDataSet.'+str(e[0][0]), 'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:wfs':"http://www.opengis.net/wfs/2.0", 'xmlns:ad':"http://inspire.ec.europa.eu/schemas/ad/4.0", 
+				'xmlns:base':"http://inspire.ec.europa.eu/schemas/base/3.3",'xmlns:base2':"http://inspire.ec.europa.eu/schemas/base2/2.0",'xmlns:gco':"http://www.isotc211.org/2005/gco",
+				'xmlns:gmd':"http://www.isotc211.org/2005/gmd",'xmlns:gml':gml,'xmlns:gn':"http://inspire.ec.europa.eu/schemas/gn/4.0", 
+				'xmlns:gsr':"http://www.isotc211.org/2005/gsr", 'xmlns:gss':"http://www.isotc211.org/2005/gss", 'xmlns:gts':"http://www.isotc211.org/2005/gts", 
+				'xmlns:sd':"http://inspire.ec.europa.eu/schemas/sd/4.0", 'xmlns:xlink':"http://www.w3.org/1999/xlink", 'xmlns:xml':"http://www.w3.org/XML/1998/namespace", 
+				'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",'xsi:schemaLocation':"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/sd/4.0 http://inspire.ec.europa.eu/schemas/sd/4.0/SpeciesDistribution.xsd  " + gml1}
+		if name == 'gml:boundedBy':
+			print('<sd:inspireId>')
+			print('<base:Identifier>')
+			print('<base:localId>SpeciesDistributionDataSet.'+ str(e[0][0]) + '</base:localId>')
+			print('<base:namespace>' + e[0][1] + '</base:namespace>')
+			print('<base:versionId >' + e[0][2] + '</base:versionId>')
+			print('</base:Identifier>')
+			print('</sd:inspireId>')
+			print('<sd:name >sd:' + e[0][3] + '</sd:name>')
+			print('<sd:domainExtent  xlink:href="' + e[0][6] + '" ></sd:domainExtent>')
+			print('<sd:beginLifespanVersion>' + dt1 + '</sd:beginLifespanVersion>')
+			print('<sd:endLifespanVersion >' + dt2 + '</sd:endLifespanVersion>')
+			print('<sd:documentBasis nilReason="inapplicable" />')
+		if name == 'sd:msGeometry':
+			name= 'sd:geometry'
+			qid = self.gmlid
+			n = qid.split('.')
+			fid = int(n[1])
+			el = InspireDB(fid).sdunit()
+			print('<sd:SpeciesDistributionUnit gml:id="'+self.gmlid +'">')
+			print('<sd:inspireId>')
+			print('<base:Identifier>')
+			print('<base:localId>base:' + el[0][1] + '</base:localId>')
+			print('<base:namespace>base:' + el[0][2] + '</base:namespace>')
+			print('</base:Identifier>')
+			print('</sd:inspireId>')
+			print('<sd:speciesName>')
+			print('<sd:SpeciesNameType>')
+			print('<sd:referenceSpeciesId xlink:actuate="onLoad"  xlink:href="' + el[0][3] + '"/>')
+			print('<sd:referenceSpeciesScheme  xlink:actuate="onLoad"  xlink:href="' + el[0][4] + '"/>')
+			print('<sd:referenceSpeciesName >sd:' + el[0][5] + '</sd:referenceSpeciesName>')
+			print('</sd:SpeciesNameType>')
+			print('</sd:speciesName>')
+			print('<sd:distributionInfo nilReason="http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"/>')
+		saxutils.XMLGenerator.startElement(self, name,  attrs)
+	def	endElement(self, name):
+		if name == 'sd:msGeometry':
+			name = 'sd:geometry'
+		if name == 'sd:SpeciesDistributionUnit':
+			name = 'sd:SpeciesDistributionDataSet'
+			print('</sd:SpeciesDistributionUnit>')
+		saxutils.XMLGenerator.endElement(self, name)
+# Ende der class für storedquery
+# Ende der Vorbereitung*****************************************************************
+req = mapscript.OWSRequest()
+req.loadParams()
+if req.getValueByName('csrftoken'):
+	req.setParameter('csrftoken',None)
+if req.getValueByName('sessionid'):
+	req.setParameter('sessionid',None)
+# Abfrage abfangen
+reco1 = req.getValueByName('REQUEST')
+#wenn kein request Parameter vorhanden ist
+if not reco1:
+	reco1 = 'Fault'
+reco = reco1.lower()
+#für resultType=hits
+zusatz = req.getValueByName('resultType')
+#falls der typename falsch ist bei describefeaturetype
+typename = req.getValueByName('typename')
+if typename == 'SpeciesDistribution' or typename == None:
+	typename = "OK"
+#Abfrage nach der storedquery_id
+squery = req.getValueByName('storedquery_id')
+if squery == 'urn:ogc:def:query:OGC-WFS::GetFeatureById':
+	squery = 'OK'
+	map = mapscript.mapObj( '/var/www/inspire/dok/sd_query.map' )
+else:
+	map = mapscript.mapObj( '/var/www/inspire/dok/sd_d1.map' )
+#bei Abfragen über die featureid
+fid = req.getValueByName('featureid')
+if not fid:
+	pass
+else:
+	fidn = 'OK'
+	map = mapscript.mapObj( '/var/www/inspire/dok/sd_query.map' )
+#Frage nachfehlenden Parametern
+names = req.getValueByName('typenames')
+tn = 'false'
+if names == 'speciesdistributionunit' or names == 'SpeciesDistributionUnit' or names == 'SpeciesDistributionunit':
+	tn = 'true'
+elif not names:
+	tn = 'true'
+gml = req.getValueByName('outputFormat')
+#verschiedene Versionen einspielen
+if gml == 'application/gml+xml; version=3.2'  or gml == 'text/xml; subtype=gml/3.2.1':
+	dokxsd = "/var/www/inspire/dok/xsd/SpeciesDistribution.xsd"
+elif gml == 'text/xml; subtype=gml/3.1.1':
+	dokxsd = "/var/www/inspire/dok/xsd/SpeciesDistribution_3.1.xsd"
+elif gml == 'text/xml; subtype=gml/2.1.2':
+	dokxsd = "/var/www/inspire/dok/xsd/SpeciesDistribution_2.1.xsd"
+elif not gml:
+	dokxsd = "/var/www/inspire/dok/xsd/SpeciesDistribution.xsd"
+else:
+	tn = 'false'
+#fehlender service parameter
+recop3 = req.getValueByName('SERVICE')
+if recop3:
+  recol = recop3.lower()
+
+if not recop3 or recol != 'wfs' :
+	answer = '''<?xml version="1.0" encoding="UTF-8"?>
+<ows:ExceptionReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ows="http://www.opengis.net/ows/1.1" version="2.0.0" xml:lang="en-US" xsi:schemaLocation="http://www.opengis.net/ows/1.1 http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd">
+  <ows:Exception exceptionCode="InvalidParameterValue" locator="request">
+    <ows:ExceptionText>msWFSDispatch(): WFS server error. Invalid Service request: Parameter wrong or missing</ows:ExceptionText>
+  </ows:Exception>
+</ows:ExceptionReport>
+    '''
+	print('header:text/xml')
+	print('')
+	print(answer)	
+#  Abfragen
+elif reco == 'describefeaturetype' and tn == 'true':
+	mapscript.msIO_installStdoutToBuffer()
+	map.OWSDispatch( req )
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+	f = open(dokxsd)
+	xsd = f.read()
+	#print('Content-type: ' + ct)
+	print('Content-type:text/xml' )
+	print('')
+	print(xsd)
+	
+
+# Do special processing for GetFeature
+#
+elif reco == 'getfeature' and zusatz == None and squery == None: 
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+			
+		  
+	dh = Tweak(sys.stdout)
+	print('Content-type: ' + ct)
+	print('')
+	parseString(content, dh)
+
+
+elif reco == 'getfeature' and zusatz == None and squery == 'OK': #für storedquery
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweakn(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+
+elif reco == 'getfeature' and zusatz == None and squery == None and fidn == 'OK': #für featureid
+	mapscript.msIO_installStdoutToBuffer()
+
+	map.OWSDispatch( req )
+
+	ct = mapscript.msIO_stripStdoutBufferContentType()
+	content = mapscript.msIO_getStdoutBufferString()
+	mapscript.msIO_resetHandlers()
+
+	if (content.__contains__('ows:ExceptionReport')):
+		print(content)
+	else:
+		dh = Tweakn(sys.stdout,encoding='utf-8')
+		print('Content-type: ' + ct)
+		print('')
+		parseString(content, dh)
+
+
+else:
+	map.OWSDispatch( req )
+  

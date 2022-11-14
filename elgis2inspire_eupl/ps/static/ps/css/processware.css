@@ -1,0 +1,340 @@
+.pw-suchfilter-button-inline {
+	margin-top: 5px;
+	margin-left: 0px !important;
+	margin-right: 10px;
+}
+
+.ui-panel {
+    padding: 0;
+    margin-bottom:20px;
+    /*width:99%;*/
+}
+
+.ui-panel .ui-panel-content {
+    margin-top: 14px;
+}
+
+.ui-datatable tbody td {
+	padding: 10px 10px;
+}
+
+.ui-tabs {
+    padding: 0;
+    margin-bottom:20px;
+    /*width:99%;*/
+}
+
+.ui-panel .ui-panel-titlebar-icon,.ui-panel .ui-panel-titlebar-icon:hover,.ui-panel .ui-panel-titlebar-icon:focus{
+	margin-left:.2em;
+	margin-top:0.4em;
+}
+
+.ui-panel .ui-panel-titlebar {
+    padding: .5em 1em .3em;
+    height: 3.125em;
+    line-height: 34px;
+    font-size: 1rem;
+}
+
+.ui-widget-header {
+    color: #4a4a4a;
+    font-weight: normal;
+    border: 0px solid #ccc;
+}
+
+.ui-datatable thead th, .ui-datatable tfoot td {
+    text-align: left;
+    font-size: 0.875rem;
+    line-height: 34px;
+    color: #871d33;
+    height: 3.125em;
+    background: #fff;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+    border: 1px #b4b4b4 solid;
+}
+
+.ui-datatable tbody td input {
+    margin: 0;
+}
+
+.ui-state-active thead th {
+	background: #fff;
+	color: #4a4a4a;
+	background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+
+.ui-state-active .ui-icon {
+    background-image: url("images/ui-icons_666666_256x240.png");
+}
+
+.ui-icon.fa {
+  text-indent: 0;
+}
+
+i {
+	padding: 2px 3px 0 0;
+	color: #871d33;
+}
+
+i.delete{
+	color: red;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    background-color: #eeeeee;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #c6c6c6;
+	box-shadow: none;
+	color: #666666;
+}
+
+/* line 496, ../bower_components/foundation/scss/foundation/components/_forms.scss */
+::-moz-placeholder {
+  /* Firefox 19+ */        
+    color: #777777;
+}
+
+/* line 500, ../bower_components/foundation/scss/foundation/components/_forms.scss */
+:-ms-input-placeholder {        
+    color: #777777;
+}
+
+.ui-datepicker .ui-datepicker-calendar .ui-state-default {
+    color: #777777;
+}
+
+.ui-datepicker .ui-datepicker-current-day .ui-state-highlight, .ui-datepicker .ui-datepicker-current-day .ui-state-default {
+    background: #777777;
+    color: #fff !important;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.tabelle-unterschrift {
+	margin-bottom:20px;
+	margin-top:-20px;
+}
+
+table.flurstuecke {
+	width: 100%;
+	margin-top: 5px;
+}
+
+table.flurstuecke tr th, table.flurstuecke tr td {
+    color: #222222;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.9375rem;
+    text-align: left;
+}
+
+.zusatzinfo .ui-panel-titlebar {
+	line-height: 20px;
+	height: 34px;
+}
+
+.zusatzinfo .ui-panel-titlebar-icon, .zusatzinfo .ui-panel-titlebar-icon:hover, .zusatzinfo .ui-panel-titlebar-icon:focus  {
+	margin-top: 0px;
+}
+
+ul.ui-autocomplete{
+	list-style-type: none;
+    background: #ffffff;
+    width:200px;
+}
+
+ul.ui-autocomplete li {
+    padding:5px;
+    font-size: 0.875rem;
+    color: #222222;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
+
+.ui-fileupload-buttonbar {
+    padding: .2em 0 1em 0;
+    background: #fff;
+}
+
+.ui-fileupload .ui-widget-header {
+	/* background: #f1f1f1; */
+}
+
+.ui-fileupload-content {
+	display: none;
+}
+
+.upload_dateiname {
+	margin-bottom: 10px;
+}
+
+.ui-panel-titlebar {
+	cursor: pointer; cursor: hand; 
+}
+
+.ui-tabs .ui-tabs-nav{
+	background: #eeeeee;
+	border-bottom: 1px solid #aaa;
+}
+
+.ui-widget.ui-widget-content {
+	border-left: border: 1px solid #aaa;
+	border-right: border: 1px solid #aaa;
+	border-bottom: border: 1px solid #aaa;
+}
+
+.widget-content-white {
+    border:1px solid #ddd;
+    background:#ffffff;
+    color:#333
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+	cursor: auto;
+    background: #d8d8d8;
+}
+
+.ui-tabs-panel-map {
+	padding: 0 !important;
+}
+
+.version-tabelle {
+	width: 99%;
+}
+
+.redstar {
+    font-weight: bold;
+    color: red;
+}
+
+.cb-in-tabelle {
+    margin-top: 10px !important;
+}
+
+.buttons-unten {
+	margin-top: 0px;
+}
+
+.buttons-oben {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.button-inline {
+	margin: 10px 0 !important;
+}
+
+.button {
+    margin-left: 10px;
+}
+
+.button-end {
+    margin-right: 0px;
+}
+
+.fa {
+	margin-right: 10px;
+}
+
+.nicht_vollstaendig{
+    position: relative;
+    padding: 0 6px 0 0;
+    top: -3px;
+    
+}
+
+#waiting {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    display: none;
+}
+
+.input-disabled {
+	background: #fff !important;
+}
+
+.ui-datatable tbody td.inline {
+	padding:5px !important;
+	text-align:right !important;
+}
+
+.ui-datatable thead th.inline{
+    padding:5px !important;
+}
+
+.ui-datatable tbody td.inline-buttons {
+    padding:16px 20px 0px 0px !important;
+    text-align:right !important;
+}
+
+.ui-datatable thead th.inline-buttons {
+    padding:0px 20px 0px 0px !important;
+    text-align:right !important;
+    width:100px;
+    
+}
+
+.ui-datatable tbody td.inline-img {
+    padding:16px 0px 0px 12px !important;
+}
+
+.ui-datatable thead th.inline-img {
+    width: 40px;
+    
+}
+
+.inline input{
+	margin: 0 !important;
+}
+	
+.lanisedit-button-search{
+	margin-top: 6px;
+}
+
+.lanisedit-fileupload{
+    margin: 25px 0 25px 0 !important;
+}
+
+.ossuche {
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.ossuche-anzahl {
+    margin-bottom: 10px;
+}
+
+.ossuche_selected {
+	font-weight: bold;
+}
+
+.ui-autocomplete { 
+	position: absolute;
+	cursor: default;
+	z-index:2000 !important;
+}
+
+.alteintrag-text {
+	margin-bottom: 10px;
+	font-size:12px;
+}
+
+.no_checkbox > i.jstree-checkbox {
+  display:none;
+}
+
+.mt-5 input{
+	margin-top: 5px !important;
+}
+
+.snapping-checkbox {
+	margin-top: 15px !important;
+}
