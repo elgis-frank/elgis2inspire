@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-------------------------------------------------------
 # Datei sd.functions.py Version 1.01 
 #

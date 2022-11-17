@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-------------------------------------------------------
 # Datei main.sql2spatialite.py Version 1.01 
 #

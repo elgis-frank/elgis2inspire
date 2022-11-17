@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-------------------------------------------------------
 # Datei ps.functions.py Version 1.01 
 #

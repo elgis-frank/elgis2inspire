@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-------------------------------------------------------
 # Datei hb.functions.py Version 1.01 
 #
@@ -9,10 +10,6 @@
 # zur Bereitstellung und Nutzung der Software und zum Haftungsausschluss. Die Lizenz ist in allen Amtssprachen der EU veröffentlicht unter https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 # 
 #--------------------------------------------------------
-
-
-
-
 import subprocess
 import sqlite3
 import spatialite

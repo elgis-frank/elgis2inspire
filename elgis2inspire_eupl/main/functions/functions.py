@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-------------------------------------------------------
 # Datei main.functions.py Version 1.01 
 #
@@ -837,7 +838,8 @@ END
       END'''
 
   #ab hier Anpassung der python files
-  pysdwfs = """#-------------------------------------------------------
+  pysdwfs = """#!/usr/bin/python3
+#-------------------------------------------------------
 # Datei sd_wfs Version 1.01 
 #
 #  Programming by eLGIS
@@ -1205,7 +1207,8 @@ else:
   #*******************************************
   # wms python file
   #*******************************************
-  pywms = """#-------------------------------------------------------
+  pywms = """#!/usr/bin/python3
+#-------------------------------------------------------
 # Datei sd_wms Version 1.01 
 #
 #  Programming by eLGIS

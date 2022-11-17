@@ -30,12 +30,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rw*jqp!%c=ws6m%-7mo=1cv54yqgojonk4%wg%#(^7!g77)4x%'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.178.73']
+ALLOWED_HOSTS = ['']
 
 
 # Application definition
@@ -133,8 +133,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = "/home/frank/development/elgis2inspire_dev/static/"
-#STATIC_ROOT = os.path.join(BASE_DIR,  'static')
 STATICFILES_DIRS = [ BASE_DIR / "static", '/var/www/inspire/static/',]
 ELGIS2INSPIRE__PATH = {'dbase':'/var/www/inspire/'}
 

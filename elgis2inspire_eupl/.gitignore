@@ -5,5 +5,5 @@
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
 #spatialite databasefiles
-
+erläuterung.odt
 *.sqlite3
